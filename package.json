@@ -1,0 +1,26 @@
+{
+  "name": "ssaatt-2526-be-ingenierosdvjjac",
+  "version": "1.0.0",
+  "description": "Back-end de la Fase 3 del proyecto de la asignatura SSAATT del equipo IngenierosDVJJAC",
+  "keywords": [
+    "node.js",
+    "express",
+    "comedor",
+    "ods"
+  ],
+  "homepage": "https://github.com/dzf00002/SSAATT-2526-BE-IngenierosDVJJAC#readme",
+  "bugs": {
+    "url": "https://github.com/dzf00002/SSAATT-2526-BE-IngenierosDVJJAC/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dzf00002/SSAATT-2526-BE-IngenierosDVJJAC.git"
+  },
+  "license": "MIT",
+  "author": "IngenierosDVJJAC dzf00002 jlm00107 cvr00028 jarg0030 vag00017",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}
