@@ -5,9 +5,8 @@
  * PROYECTO: Comedor Social "Amor y Lentejas"
  */
 
-// =========================================================================
-// 1. CONSTANTES GLOBALES Y MÓDULOS
-// =========================================================================
+
+
 const express = require("express");
 const os = require("node:os");
 const dns = require("node:dns");
@@ -33,9 +32,9 @@ const DB_NAME = "amorylentejas";
 const DB_USERS_COLLECTION = "users";
 const DB_TURNOS_COLLECTION = "turnos"; 
 
-// =========================================================================
+
 // 2. INICIALIZACIÓN DE EXPRESS Y MIDDLEWARES
-// =========================================================================
+
 const app = new express();
 
 app.use(express.json()); // Permite leer el cuerpo de las peticiones en formato JSON
@@ -46,9 +45,8 @@ app.use((req, res, next) => {
   next();
 });
 
-// =========================================================================
+
 // 3. TAREA 2: SERVICIO BÁSICO DE LOGIN
-// =========================================================================
 app.post("/login", (req, res) => {
   if (req.body != undefined) {
     if (req.body.user === undefined || req.body.password === undefined) {
@@ -72,9 +70,9 @@ const vFlecha = (req, res, next) => {
   }
 };
 
-// =========================================================================
+
 // 4. TAREA 4: CRUD COMPLETO DE USUARIOS EN MONGODB
-// =========================================================================
+
 
 // POST /users - Crear usuario
 app.post("/users", vFlecha, function (req, res) {
@@ -205,9 +203,9 @@ app.delete("/users/:id", function (req, res) {
 });
 
 
-// =========================================================================
-// 5. TAREA 5: CRUD COMPLETO DE TURNOS (TU PROYECTO PRINCIPAL)
-// =========================================================================
+
+// 5. TAREA 5: CRUD DE TURNOS 
+
 
 // POST /turnos - Crear un turno en la base de datos
 app.post("/turnos", vFlecha, function (req, res) {
@@ -333,9 +331,9 @@ app.delete("/turnos/:id", function (req, res) {
 });
 
 
-// =========================================================================
+
 // 6. ERROR 404 GENÉRICO Y ARRANQUE DEL SERVIDOR
-// =========================================================================
+
 
 // Endpoint final por si la ruta no existe
 app.use((req, res) => {
