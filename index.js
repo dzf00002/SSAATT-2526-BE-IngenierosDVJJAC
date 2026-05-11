@@ -21,6 +21,6 @@ const STATUS_SERVER_ERROR = 500;
 // Constantes de la base de datos
 const DB_URL = "mongodb://localhost:27017/";
 const DB_NAME = "amorylentejas";
-const DB_USERS_COLLECTION = "users";
+const DB_USERS_COLLECTION = "voluntario";
 const DB_TURNOS_COLLECTION = "turnos";
 
