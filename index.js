@@ -32,6 +32,26 @@ app.use((req, res, next) => {
   next();
 });
 
+//Endpoint post/login
+app.post("/login", (req, res) => {
+
+  // Comprueba que la petición incluye un cuerpo JSON
+  if (req.body != undefined) {
+
+    //Comprueba si están los campos obligatorios, que son el usuario y la contraseña y comprueban si coinciden
+    if (req.body.user === undefined || req.body.password === undefined) {
+      res.status(STATUS_BADFORMAT).end();
+    } else if (req.body.user === "user" && req.body.password === "1234") {
+      res.status(STATUS_OK).end();
+    } else {
+      res.status(STATUS_UNAUTHORIZED).end();
+    }
+  } else {
+    res.status(STATUS_BADFORMAT).end();
+  }
+});
+//User:user y password:1234
+
 
 
 
