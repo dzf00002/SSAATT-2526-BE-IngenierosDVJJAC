@@ -60,6 +60,35 @@ const vFlecha = (req, res, next) => {
     res.status(STATUS_BADFORMAT).end();
   }
 };
+ //TAREA 4. CRUD COMPLETO 
+ // POST /users - Crear usuario
+app.post("/users", vFlecha, function (req, res) {
+  const client = new MongoClient(DB_URL);
+  async function run() {
+    try {
+      //crea cliente
+      const db = client.db(DB_NAME);
+      const users = db.collection(DB_USERS_COLLECTION);
+        // Busca si ya existe un usuario con el mismo nombre de usuario
+      const buscado = await users.countDocuments({ user: req.body.user });
+      if (buscado !== 0) {
+        console.log(`[SERVIDOR] El usuario ${req.body.user} ya existe en la base de datos`);
+        res.status(STATUS_FORBIDDEN).end();
+      } else {
+        const result = await users.insertOne(req.body);
+        console.log(`[SERVIDOR] Documento insertado con _id: ${result.insertedId}`);
+        res.status(STATUS_CREATED).json({ _id: result.insertedId });
+      }
+    } finally {
+      //cierra conexión mongo
+      await client.close();
+    }
+  }
+  run().catch((ex) => {
+    console.error("[SERVIDOR] POST /users: " + ex.toString());
+    res.status(STATUS_SERVER_ERROR).end();
+  });
+});
 
 
 
