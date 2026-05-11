@@ -52,6 +52,16 @@ app.post("/login", (req, res) => {
 });
 //User:user y password:1234
 
+// Funcion para comprobar que el cliente ha enviado datos
+const vFlecha = (req, res, next) => {
+  if (req.body !== undefined) {
+    next();
+  } else {
+    res.status(STATUS_BADFORMAT).end();
+  }
+};
+
+
 
 
 
