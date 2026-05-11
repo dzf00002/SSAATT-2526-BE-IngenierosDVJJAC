@@ -24,3 +24,15 @@ const DB_NAME = "amorylentejas";
 const DB_USERS_COLLECTION = "voluntario";
 const DB_TURNOS_COLLECTION = "turnos";
 
+// Express 
+const app = new express();
+app.use(express.json()); 
+app.use((req, res, next) => {
+  console.log("[SERVIDOR] Petición entrante: " + req.method + " " + req.path);
+  next();
+});
+
+
+
+
+
