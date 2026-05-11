@@ -116,6 +116,32 @@ app.get("/voluntarios", function (req, res) {
   });
 });
 
+// GET /voluntarios/:id - Leer un usuario específico
+app.get("/voluntarios/:id", function (req, res) {
+  const client = new MongoClient(DB_URL);
+  async function run() {
+    try {
+      const db = client.db(DB_NAME);
+      const voluntarios = db.collection(DB_USERS_COLLECTION);
+      const id = new ObjectId(req.params.id);
+      const result = await voluntarios.findOne({ _id: id });
+      if (result) {
+        res.json(result);
+      } else {
+        res.status(STATUS_NOTFOUND).end();
+      }
+    } catch (error) {
+      if (error instanceof Error && error.name === "BSONError") {
+        res.status(STATUS_BADFORMAT).json({ message: "Formato de id inválido" });
+      } else {
+        res.status(STATUS_SERVER_ERROR).json({ message: "Error del servidor" });
+      }
+    } finally {
+      await client.close();
+    }
+  }
+  run().catch(() => res.status(STATUS_SERVER_ERROR).end());
+});
 
 
 
