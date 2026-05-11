@@ -143,13 +143,10 @@ app.get("/voluntarios/:id", function (req, res) {
   run().catch(() => res.status(STATUS_SERVER_ERROR).end());
 });
 
-
-
-
 // PUT /voluntarios/:id - Actualizar usuario
 app.put("/voluntarios/:id", function (req, res) {
   const client = new MongoClient(DB_URL);
-  async function run() 
+  async function run() {
     try {
       const db = client.db(DB_NAME);
       const voluntarios = db.collection(DB_USERS_COLLECTION);
@@ -174,6 +171,14 @@ app.put("/voluntarios/:id", function (req, res) {
   }
   run().catch(() => res.status(STATUS_SERVER_ERROR).end());
 });
+
+
+
+
+
+
+
+
 
 
 
