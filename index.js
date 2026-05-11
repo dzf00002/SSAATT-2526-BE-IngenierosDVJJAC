@@ -21,7 +21,7 @@ const STATUS_SERVER_ERROR = 500;
 // Constantes de la base de datos
 const DB_URL = "mongodb://localhost:27017/";
 const DB_NAME = "amorylentejas";
-const DB_USERS_COLLECTION = "voluntario";
+const DB_USERS_COLLECTION = "voluntarios";
 const DB_TURNOS_COLLECTION = "turnos";
 
 // Express 
@@ -61,21 +61,21 @@ const vFlecha = (req, res, next) => {
   }
 };
  //TAREA 4. CRUD COMPLETO 
- // POST /users - Crear usuario
-app.post("/users", vFlecha, function (req, res) {
+ // POST /voluntarios - Crear usuario
+app.post("/voluntarios", vFlecha, function (req, res) {
   const client = new MongoClient(DB_URL);
   async function run() {
     try {
       //crea cliente
       const db = client.db(DB_NAME);
-      const users = db.collection(DB_USERS_COLLECTION);
+      const voluntarios = db.collection(DB_USERS_COLLECTION);
         // Busca si ya existe un usuario con el mismo nombre de usuario
-      const buscado = await users.countDocuments({ user: req.body.user });
+      const buscado = await voluntarios.countDocuments({ user: req.body.user });
       if (buscado !== 0) {
         console.log(`[SERVIDOR] El usuario ${req.body.user} ya existe en la base de datos`);
         res.status(STATUS_FORBIDDEN).end();
       } else {
-        const result = await users.insertOne(req.body);
+        const result = await voluntarios.insertOne(req.body);
         console.log(`[SERVIDOR] Documento insertado con _id: ${result.insertedId}`);
         res.status(STATUS_CREATED).json({ _id: result.insertedId });
       }
@@ -85,10 +85,36 @@ app.post("/users", vFlecha, function (req, res) {
     }
   }
   run().catch((ex) => {
-    console.error("[SERVIDOR] POST /users: " + ex.toString());
+    console.error("[SERVIDOR] POST /voluntarios: " + ex.toString());
     res.status(STATUS_SERVER_ERROR).end();
   });
 });
+
+// GET /voluntarios - Leer usuarios
+app.get("/voluntarios", function (req, res) {
+  const client = new MongoClient(DB_URL);
+  async function run() {
+    try {
+      const db = client.db(DB_NAME);
+      const voluntarios = db.collection(DB_USERS_COLLECTION);
+      let options = new Object();
+      req.query.age !== undefined ? options.age = { $gte: parseInt(req.query.age) } : undefined;
+      req.query.limit !== undefined ? options.limit = parseInt(req.query.limit) : undefined;
+     
+      const cursor = await voluntarios.find({}, options);
+      const result = await cursor.toArray();
+      res.json(result);
+    } finally {
+      await client.close();
+    }
+  }
+  run().catch((ex) => {
+    console.error("[SERVIDOR] GET /voluntarios: " + ex.toString());
+    res.status(STATUS_SERVER_ERROR).end();
+  });
+});
+
+
 
 
 
