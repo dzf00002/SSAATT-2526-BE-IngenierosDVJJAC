@@ -251,7 +251,29 @@ app.get("/turnos", function (req, res) {
     res.status(STATUS_SERVER_ERROR).end();
   });
 });
-
+// GET /turnos/:id - Leer un turno concreto de la base de datos
+app.get("/turnos/:id", function (req, res) {
+  const client = new MongoClient(DB_URL);
+  async function run() {
+    try {
+      const db = client.db(DB_NAME);
+      const turnos = db.collection(DB_TURNOS_COLLECTION);
+      const id = new ObjectId(req.params.id);
+      const result = await turnos.findOne({ _id: id });
+     
+      if (result) {
+        res.json(result);
+      } else {
+        res.status(STATUS_NOTFOUND).end();
+      }
+    } catch (error) {
+      res.status(error.name === "BSONError" ? STATUS_BADFORMAT : STATUS_SERVER_ERROR).end();
+    } finally {
+      await client.close();
+    }
+  }
+  run().catch(() => res.status(STATUS_SERVER_ERROR).end());
+});
 
 
 
