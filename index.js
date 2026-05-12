@@ -277,6 +277,36 @@ app.get("/turnos/:id", function (req, res) {
 
 
 
+// PUT /turnos/:id - Modificar un turno existente en la base de datos
+app.put("/turnos/:id", function (req, res) {
+  const client = new MongoClient(DB_URL);
+  async function run() {
+    try {
+      const db = client.db(DB_NAME);
+      const turnos = db.collection(DB_TURNOS_COLLECTION);
+      const id = new ObjectId(req.params.id);
+
+
+      if (req.body._id !== undefined) {
+        return res.status(STATUS_BADFORMAT).json({ message: "El campo _id no se puede modificar." });
+      }
+
+
+      const result = await turnos.updateOne({ _id: id }, { $set: req.body });
+      if (result.matchedCount === 1) {
+        console.log("[SERVIDOR] Turno actualizado correctamente.");
+        res.status(STATUS_OK).end();
+      } else {
+        res.status(STATUS_NOTFOUND).end();
+      }
+    } catch (error) {
+      res.status(error.name === "BSONError" ? STATUS_BADFORMAT : STATUS_SERVER_ERROR).end();
+    } finally {
+      await client.close();
+    }
+  }
+  run().catch(() => res.status(STATUS_SERVER_ERROR).end());
+});
 
 
 
