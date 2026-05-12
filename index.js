@@ -172,6 +172,29 @@ app.put("/voluntarios/:id", function (req, res) {
   run().catch(() => res.status(STATUS_SERVER_ERROR).end());
 });
 
+// DELETE /voluntarios/:id - Borrar voluntarios
+app.delete("/voluntarios/:id", function (req, res) {
+  const client = new MongoClient(DB_URL);
+  async function run() {
+    try {
+      const db = client.db(DB_NAME);
+      const voluntarios = db.collection(DB_USERS_COLLECTION);
+      const id = new ObjectId(req.params.id);
+      const result = await voluntarios.deleteOne({ _id: id });
+      if (result.deletedCount === 1) {
+        res.status(STATUS_OK).end();
+      } else {
+        res.status(STATUS_NOTFOUND).end();
+      }
+    } catch (error) {
+      res.status(error.name === "BSONError" ? STATUS_BADFORMAT : STATUS_SERVER_ERROR).end();
+    } finally {
+      await client.close();
+    }
+  }
+  run().catch(() => res.status(STATUS_SERVER_ERROR).end());
+});
+
 
 
 
