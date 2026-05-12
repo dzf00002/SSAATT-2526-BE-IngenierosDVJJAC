@@ -197,6 +197,42 @@ app.delete("/voluntarios/:id", function (req, res) {
 
 
 
+// 5. TAREA 5: CRUD DE TURNOS
+
+
+
+
+// POST /turnos - Crear un turno en la base de datos
+  //Crea u nuevo turno en la base de datos
+app.post("/turnos", vFlecha, function (req, res) {
+  const client = new MongoClient(DB_URL);
+  async function run() {
+    try {
+       //Obtenemos la referencia de la base de datos y obtenemos la colección de turnos
+      const db = client.db(DB_NAME);
+      const turnos = db.collection(DB_TURNOS_COLLECTION);
+     
+      // Validación obligatoria  de datos
+      if (!req.body.nombre || !req.body.dia || !req.body.grupo) {
+        return res.status(STATUS_BADFORMAT).json({ error: "Faltan datos obligatorios (nombre, dia, grupo)" });
+      }
+
+
+      const result = await turnos.insertOne(req.body);
+      console.log(`[SERVIDOR] Turno insertado con _id: ${result.insertedId}`);
+      res.status(STATUS_CREATED).json({ _id: result.insertedId });
+    } finally {
+      await client.close();
+    }
+  }
+  run().catch((ex) => {
+    console.error("[SERVIDOR] POST /turnos: " + ex.toString());
+    res.status(STATUS_SERVER_ERROR).end();
+  });
+});
+
+
+
 
 
 
