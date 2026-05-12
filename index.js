@@ -233,6 +233,30 @@ app.post("/turnos", vFlecha, function (req, res) {
 
 
 
+// GET /turnos - Leer todos los turnos de la base de datos
+app.get("/turnos", function (req, res) {
+  const client = new MongoClient(DB_URL);
+  async function run() {
+    try {
+      const db = client.db(DB_NAME);
+      const turnos = db.collection(DB_TURNOS_COLLECTION);
+      const result = await turnos.find().toArray();
+      res.json(result);
+    } finally {
+      await client.close();
+    }
+  }
+  run().catch((ex) => {
+    console.error("[SERVIDOR] GET /turnos: " + ex.toString());
+    res.status(STATUS_SERVER_ERROR).end();
+  });
+});
+
+
+
+
+
+
 
 
 
