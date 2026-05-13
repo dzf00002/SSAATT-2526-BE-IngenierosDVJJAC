@@ -117,10 +117,10 @@ app.get("/voluntarios", function (req, res) {
       const voluntarios = db.collection(DB_USERS_COLLECTION);
       let options = new Object(); //Crea un objeto vacío para guardar opciones
       let filtro = new Object();
-      req.query.age !== undefined ? options.age = { $gte: parseInt(req.query.age) } : undefined; //Filtra usuarios entre un rango de edad
+      req.query.age !== undefined ? filtro.age = { $gte: parseInt(req.query.age) } : undefined; //Filtra usuarios entre un rango de edad
       req.query.limit !== undefined ? options.limit = parseInt(req.query.limit) : undefined;     //Limita cuantos usuarios se muestran segun el valor de limit
      
-      const cursor = await voluntarios.find({}, options);
+      const cursor = await voluntarios.find(filtro, options);
       const result = await cursor.toArray();
       res.json(result);
     }finally {
