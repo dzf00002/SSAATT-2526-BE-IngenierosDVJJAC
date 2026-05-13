@@ -1,6 +1,6 @@
 
 
-/*Importacion de librerias necesarias*/
+//Importacion de librerias necesarias
 const express = require("express"); //Permite crear el servidor, en concreto para definir rutas con PUT, GET o DELETE
 const os = require("node:os"); //Obtiene información del SO y nombre de la maquina
 const dns = require("node:dns"); //Obtiene la IP asociada al nombre del equipo
