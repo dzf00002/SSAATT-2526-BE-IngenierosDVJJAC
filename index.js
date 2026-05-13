@@ -308,6 +308,68 @@ app.put("/turnos/:id", function (req, res) {
   run().catch(() => res.status(STATUS_SERVER_ERROR).end());
 });
 
+// DELETE /turnos/:id - Borrar un turno de la base de datos
+app.delete("/turnos/:id", function (req, res) {
+  const client = new MongoClient(DB_URL);
+  async function run() {
+    try {
+      const db = client.db(DB_NAME);
+      const turnos = db.collection(DB_TURNOS_COLLECTION);
+      const id = new ObjectId(req.params.id);
+     
+      const result = await turnos.deleteOne({ _id: id });
+      if (result.deletedCount === 1) {
+        console.log("[SERVIDOR] Turno eliminado correctamente.");
+        res.status(STATUS_OK).end();
+      } else {
+        res.status(STATUS_NOTFOUND).end();
+      }
+    } catch (error) {
+      res.status(error.name === "BSONError" ? STATUS_BADFORMAT : STATUS_SERVER_ERROR).end();
+    } finally {
+      await client.close();
+    }
+  }
+  run().catch(() => res.status(STATUS_SERVER_ERROR).end());
+});
+
+
+
+
+
+
+//ERROR 404 Y ARRANQUE DEL SERVIDOR
+
+
+
+
+// Endpoint final por si la ruta no existe
+app.use((req, res) => {
+  res.status(STATUS_NOTFOUND).end();
+});
+
+
+console.log(`[SERVIDOR] Iniciando servidor HTTP sobre Node.js
+           Servicio: ${SERVICE_NAME}
+           Versión: ${VERSION}            
+-------------------------------------------------`);
+
+
+dns.lookup(os.hostname(), 4, function (err, address, family) {
+  if (err) {
+    console.error("[SERVIDOR] Error al obtener la IP del servidor.");
+  } else {
+    console.log("[SERVIDOR] IP del servidor: " + address.toString());
+    app.listen(SERVICE_PORT, address.toString(), (error) => {
+      if (error) {
+        console.error(`[SERVIDOR] Error al inicializar: ${error}`);
+      } else {
+        console.log(`[SERVIDOR] Servidor ejecutándose en http://${address}:${SERVICE_PORT}`);
+      }
+    });
+  }
+});
+
 
 
 
