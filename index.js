@@ -29,9 +29,9 @@ const DB_TURNOS_COLLECTION = "turnos";
 
 // Express 
 const app = new express(); //Crea la aplicacion del servidor
-app.use(express.json());  //Permite que Express pueda leer las peticiones en JSON
+app.use(express.json());  //Permite que Express pueda leer las peticiones en JSON mediante el objeto (req),empleando la propiedad req.body.
 app.use((req, res, next) => {
-  console.log("[SERVIDOR] Petición entrante: " + req.method + " " + req.path);
+  console.log("[SERVIDOR] Petición entrante: " + req.method + " " + req.path); //Hace que se pase el proceso al siguiente endpoint que coincida
   next();
 });  //Muestra cada peticion que llega al servidor
 
@@ -83,12 +83,12 @@ const vFlecha = (req, res, next) => {
 app.post("/voluntarios", vFlecha, function (req, res) {
   const client = new MongoClient(DB_URL); //Se crea un cliente para conectarse a Mongo
   async function run() {
-    try {
+    try {       //try ejecuta este fragmento de codigo, si falla salta el error propuesto en el catch
       //crea cliente
       const db = client.db(DB_NAME);                          //Seleccion de base de datos y colección
       const voluntarios = db.collection(DB_USERS_COLLECTION);
         // Busca si ya existe un usuario con el mismo nombre de usuario
-      const buscado = await voluntarios.countDocuments({ user: req.body.user });
+      const buscado = await voluntarios.countDocuments({ user: req.body.user });    //await hace que no lea la siguiente linea de codigo hasta que mongo no de respuesta
       if (buscado !== 0) {
         console.log(`[SERVIDOR] El usuario ${req.body.user} ya existe en la base de datos`);
         res.status(STATUS_FORBIDDEN).end();
@@ -117,10 +117,10 @@ app.get("/voluntarios", function (req, res) {
       const voluntarios = db.collection(DB_USERS_COLLECTION);
       let options = new Object(); //Crea un objeto vacío para guardar opciones
       let filtro = new Object();
-      req.query.age !== undefined ? filtro.age = { $gte: parseInt(req.query.age) } : undefined; //Filtra usuarios entre un rango de edad
+      req.query.age !== undefined ? options.age = { $gte: parseInt(req.query.age) } : undefined; //Filtra usuarios entre un rango de edad
       req.query.limit !== undefined ? options.limit = parseInt(req.query.limit) : undefined;     //Limita cuantos usuarios se muestran segun el valor de limit
      
-      const cursor = await voluntarios.find(filtro, options);
+      const cursor = await voluntarios.find({}, options);
       const result = await cursor.toArray();
       res.json(result);
     }finally {
@@ -167,19 +167,22 @@ app.put("/voluntarios/:id", function (req, res) {
   const client = new MongoClient(DB_URL); //Convierte URL en objeto
   async function run() {
     try {
-      const db = client.db(DB_NAME);
-      const voluntarios = db.collection(DB_USERS_COLLECTION);
-      const id = new ObjectId(req.params.id);
+      const db = client.db(DB_NAME);// Selecciona la base de datos 
+      const voluntarios = db.collection(DB_USERS_COLLECTION);//Selecciona la coleccion de "users" de la base de datos
+      const id = new ObjectId(req.params.id); //Convierte la id en una _id que genera mongo
 
-
+      //Comprobación de que el cliente es quien hace la peticion, no se puede cambiar el id
       if (req.body.user !== undefined || req.body._id !== undefined) {
         res.status(STATUS_BADFORMAT).json({ message: "El campo user o _id no se pueden modificar." });
       } else {
         const result = await voluntarios.updateOne({ _id: id }, { $set: req.body });
+        //Si se cumple la validación anterior se cambia el campo que el usuario pedia
         if (result.matchedCount === 1) {
           res.status(STATUS_OK).end();
+          //id encontrado
         } else {
           res.status(STATUS_NOTFOUND).end();
+          //id no encontrado
         }
       }
     } catch (error) {
@@ -194,14 +197,14 @@ app.put("/voluntarios/:id", function (req, res) {
 
 
 // DELETE /voluntarios/:id - Borrar voluntarios
-app.delete("/voluntarios/:id", function (req, res) {
+app.delete("/voluntarios/:id", function (req, res) {//Definicion del endpoint, elmina un turno específico
   const client = new MongoClient(DB_URL);
   async function run() {
     try {
-      const db = client.db(DB_NAME);
-      const voluntarios = db.collection(DB_USERS_COLLECTION);
-      const id = new ObjectId(req.params.id);
-      const result = await voluntarios.deleteOne({ _id: id });
+      const db = client.db(DB_NAME); //Selecciona la base de datos
+      const voluntarios = db.collection(DB_USERS_COLLECTION);// Selecciona los "users" registrados en la base
+      const id = new ObjectId(req.params.id);//Convierte la id en _id que genera mongo
+      const result = await voluntarios.deleteOne({ _id: id }); // Borra turno que coincida id con el_id que genera mongo
       if (result.deletedCount === 1) {
         res.status(STATUS_OK).end();
       } else {
@@ -226,6 +229,7 @@ app.delete("/voluntarios/:id", function (req, res) {
 // POST /turnos - Crear un turno en la base de datos
   //Crea u nuevo turno en la base de datos
 app.post("/turnos", vFlecha, function (req, res) {
+  //vFlecha: Es un middleware que compueba si la petición tiene body json
   const client = new MongoClient(DB_URL);
   async function run() {
     try {
@@ -238,10 +242,10 @@ app.post("/turnos", vFlecha, function (req, res) {
         return res.status(STATUS_BADFORMAT).json({ error: "Faltan datos obligatorios (nombre, dia, grupo)" });
       }
 
-
+      //Coge todos los datos insertados por el usuario y los actualiza
       const result = await turnos.insertOne(req.body);
       console.log(`[SERVIDOR] Turno insertado con _id: ${result.insertedId}`);
-      res.status(STATUS_CREATED).json({ _id: result.insertedId });
+      res.status(STATUS_CREATED).json({ _id: result.insertedId }); //Crea el _id
     } finally {
       await client.close();
     }
@@ -259,9 +263,9 @@ app.get("/turnos", function (req, res) {
   const client = new MongoClient(DB_URL);
   async function run() {
     try {
-      const db = client.db(DB_NAME);
-      const turnos = db.collection(DB_TURNOS_COLLECTION);
-      const result = await turnos.find().toArray();
+      const db = client.db(DB_NAME);//Seleciona la base
+      const turnos = db.collection(DB_TURNOS_COLLECTION);//Selecciona los datos de la tabla de turnos
+      const result = await turnos.find().toArray();// find sin filtro para coger todos los datos toArray para que los mande en forma de array
       res.json(result);
     } finally {
       await client.close();
@@ -273,15 +277,16 @@ app.get("/turnos", function (req, res) {
   });
 });
 // GET /turnos/:id - Leer un turno concreto de la base de datos
-app.get("/turnos/:id", function (req, res) {
+app.get("/turnos/:id", function (req, res) {//El :id refleja que cuando alguien se meta a la url turnos, su id sera guardado
   const client = new MongoClient(DB_URL);
   async function run() {
     try {
       const db = client.db(DB_NAME);
       const turnos = db.collection(DB_TURNOS_COLLECTION);
-      const id = new ObjectId(req.params.id);
-      const result = await turnos.findOne({ _id: id });
+      const id = new ObjectId(req.params.id);//Transforma el id en _id(formato de mongo)
+      const result = await turnos.findOne({ _id: id });//findOne:quedate con el primero que encuentres que cumpla con el requisto ()
      
+      //Si lo encuenta lo imprime sino imprime un error
       if (result) {
         res.json(result);
       } else {
@@ -299,22 +304,22 @@ app.get("/turnos/:id", function (req, res) {
 
 
 // PUT /turnos/:id - Modificar un turno existente en la base de datos
-app.put("/turnos/:id", function (req, res) {
+app.put("/turnos/:id", function (req, res) {//Cuando alguien se meta en turnos se le guarda la id
   const client = new MongoClient(DB_URL);
   async function run() {
     try {
-      const db = client.db(DB_NAME);
-      const turnos = db.collection(DB_TURNOS_COLLECTION);
-      const id = new ObjectId(req.params.id);
+      const db = client.db(DB_NAME);//Selecciona base datos
+      const turnos = db.collection(DB_TURNOS_COLLECTION);//Selecciona la parte de los turnos de la base
+      const id = new ObjectId(req.params.id);// Coge la id y la pasa a formato _id
 
 
       if (req.body._id !== undefined) {
         return res.status(STATUS_BADFORMAT).json({ message: "El campo _id no se puede modificar." });
-      }
+      }//Comprobación de que el _id esta bien 
 
 
-      const result = await turnos.updateOne({ _id: id }, { $set: req.body });
-      if (result.matchedCount === 1) {
+      const result = await turnos.updateOne({ _id: id }, { $set: req.body });//Actualiza los datos segun este filtro () con los datos que el usuario manda ($set)
+      if (result.matchedCount === 1) {//Si se encuentra el id (con el filtro)
         console.log("[SERVIDOR] Turno actualizado correctamente.");
         res.status(STATUS_OK).end();
       } else {
@@ -330,15 +335,15 @@ app.put("/turnos/:id", function (req, res) {
 });
 
 // DELETE /turnos/:id - Borrar un turno de la base de datos
-app.delete("/turnos/:id", function (req, res) {
+app.delete("/turnos/:id", function (req, res) {//Le decimos que elimine segun id en la ruta /turnos
   const client = new MongoClient(DB_URL);
   async function run() {
     try {
       const db = client.db(DB_NAME);
       const turnos = db.collection(DB_TURNOS_COLLECTION);
-      const id = new ObjectId(req.params.id);
+      const id = new ObjectId(req.params.id);// Coge el id del usuario que se le asigna en la url y lo pasa a formato _id
      
-      const result = await turnos.deleteOne({ _id: id });
+      const result = await turnos.deleteOne({ _id: id });// Borra solamente el primer turno que cumpla con el filtro ()
       if (result.deletedCount === 1) {
         console.log("[SERVIDOR] Turno eliminado correctamente.");
         res.status(STATUS_OK).end();
@@ -365,7 +370,7 @@ app.delete("/turnos/:id", function (req, res) {
 
 
 // Endpoint final por si la ruta no existe
-app.use((req, res) => {
+app.use((req, res) => {//Express lee todo el codigo, y si la ruta no existe salta el error
   res.status(STATUS_NOTFOUND).end();
 });
 
@@ -375,13 +380,15 @@ console.log(`[SERVIDOR] Iniciando servidor HTTP sobre Node.js
            Versión: ${VERSION}            
 -------------------------------------------------`);
 
-
-dns.lookup(os.hostname(), 4, function (err, address, family) {
+//Averiguar tu IP
+dns.lookup(os.hostname(), 4, function (err, address, family) {//os.hostname: como se llama tu pc?, dns lookup: coge ese nombre y da dirección IP
+  //4 para IPv4
   if (err) {
     console.error("[SERVIDOR] Error al obtener la IP del servidor.");
   } else {
     console.log("[SERVIDOR] IP del servidor: " + address.toString());
-    app.listen(SERVICE_PORT, address.toString(), (error) => {
+    // Se inicia el servidor HTTP una vez se ha buscado la IP en el puerto prefijado
+    app.listen(SERVICE_PORT, address.toString(), (error) => {//app.listen: Express empieza a trabajar, puerto 8081, address.ts...la ip que acabamos de averiguar
       if (error) {
         console.error(`[SERVIDOR] Error al inicializar: ${error}`);
       } else {
