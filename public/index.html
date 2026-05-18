@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<link rel="stylesheet" href="estilos.css"/>
+	<title>Amor y lentejas</title>
+</head>
+
+<body>
+
+	<header>
+		<!--Caja para mostrar error durante 5 seg (definido en js)-->
+		<div>
+			<img src="logo.png" alt="Logo Amor y Lentejas" class="logo">
+		</div>
+
+		<h1>Comedor social</h1>	
+		 						<!--Titulo principal de la pagina-->
+	</header>
+
+	<div id="Error_banner" class="oculta">
+        <p id="message"></p>
+    </div>
+	
+	<!--Menú principal para navegar por las secciones y ocultar las 
+	secciones antes del login (mediante css y js)-->
+	<nav class="menu">
+		<a id="nav-1" href="#" class="active" onclick="showSection('1')">Inicio</a>
+        <a id="nav-2" href="#" class="inactive" onclick="showSection('2')">Menú</a>
+        <a id="nav-3" href="#" class="inactive" onclick="showSection('3')">Iniciar sesión</a>
+        <a id="nav-4" href="#" class="inactive" onclick="showSection('4')">Registro</a>
+        <a id="nav-6" href="#" class="inactive menuprivado oculta" onclick="showSection('6')">Crear</a>
+        <a id="nav-7" href="#" class="inactive menuprivado oculta" onclick="showSection('7')">Listar</a>
+        <a id="nav-8" href="#" class="inactive menuprivado oculta" onclick="showSection('8')">Modificar</a>
+		<a id="nav-5" href="#" class="inactive" onclick="showSection('5')">Acerca de</a>
+	</nav>
+
+	
+
+	<main>
+										<!--Contenido principal-->
+		<div class="Contenedor">
+			<!--Cambio las id y las class en cada seccion-->
+			
+			<section id="sec-1" class="content oculta inicio">  
+				<h2>¿QUIÉNES SOMOS?</h2>
+
+				<p>Somos un grupo de estudiantes de la universidad de Jaén, 
+					desarrolladores de la gestión de un comedor social ubicado en C/Linares.
+					Nuestra labor principal no es otra que gestionar los turnos de los voluntarios 
+					de este comedor, con el fin de contribuir positivamente en la sociedad.
+				</p>
+			
+				<h2 >¿CUÁL ES NUESTRA LABOR?</h2>
+				
+				<p>Trabajamos en base a los ODS, enfocándonos princpalmente en el de "Hambre 0",
+					nos encargamos de que los voluntarios del comedor puedan inscribirse en los turnos que deseen,
+					así como darse de baja en ellos. </p>
+                      
+					<img src="comedor.jpg" alt="Comedor" class="logo">
+			</section>
+
+			<section id="sec-2" class="content oculta"> 
+
+				<table>
+					<caption>MENÚ SEMANAL</caption>
+
+					<thead>
+						<tr> <th>COMIDAS</th> <th>LUNES</th> <th>MARTES</th> <th>MIÉRCOLES</th> <th>JUEVES</th> <th>VIERNES</th></tr>
+					</thead>
+
+						<tbody>	
+						<tr> <th>DESAYUNO</th> <td>Desayuno Andaluz</td> <td>Ochios Rellenos</td> <td>Fruta Fresca y Yougurt</td> <td>Desayuno Andaluz</td> <td>Leche con Galletas</td>  </tr>
+						<tr> <th>COMIDA</th> <td>Garbanzos con Chorizo</td> <td>Menestra de Verdura</td> <td>Merluza con Guisantes</td> <td>Macarrones con Carne</td> <td>Lentejas con chorizo</td> </tr>
+						<tr> <th>CENA</th> <td>Pescada en Salsa</td> <td>Pizza</td> <td>Croquetas</td> <td>Ensaladilla Rusa</td> <td>Filetes de Lomo</td> </tr>
+						</tbody>
+					
+				</table>
+			</section>
+
+
+			<section id="sec-3" class="content oculta autentificacion">
+				
+				<aside>
+					<img src="gracias.png" class="ayuda">
+					<p>
+						En esta sección los usuarios que ya estén registrados podrán acceder a su cuenta mediante su correo electrónico y contraseña. Una vez autentificados, podrán gestionar sus participaciones como voluntarios y acceder a las diferentes
+						funciones disponibles dentro de la plataforma. 
+					</p>
+				</aside>
+
+
+				<!--Al pulsar el botón se ejecuta la función JS-->
+				<form  name="login" onsubmit="FormularioLogin(event) ">
+							<h2 class="titulo-autent">Iniciar Sesión</h2>
+					<label>
+						Email:<input type="email" name="email" required></label><br>
+
+					<label>
+						Contraseña: <input type="password" name="password" ></label><br>
+
+					<button type="submit">Iniciar Sesión</button>
+				</form>
+
+			</section>
+
+
+
+			<section id= "sec-4" class="content oculta registro">
+
+				<aside><img src="ayuda.png" class="ayuda">
+					<p>
+						En esta sección el usuario podrá crear una cuenta personal para acceder a las
+						funciones principales de la página. El registro permitirá guardar sus datos,
+						identificarse de forma segura y participar en las actividades o servicios
+						disponibles dentro de la plataforma.
+					</p>
+				</aside>
+
+				<!--Al pulsar el boton se ejecuta la funcion Js-->
+				<form  name="registro" onsubmit="Registro(event)">
+
+					<h2 class="Titulo-Registro">Registro</h2>
+						<label for="usuario">
+							Usuario:<input type="text" name="usuario" minlength="4" maxlength="16" placeholder="4-16 Caracteres">
+						</label>
+						<label for="email">
+							Correo electrónico: <input type="email" name="email"  max="32" >
+						</label>
+						<label for="nombre">
+							Nombre: <input type="text" name="nombre" max="32" >
+						</label>
+						<label for="apellidos">
+							Apellidos: <input type="text" name="apellidos" max="32" >
+						</label>
+						<label for="password">
+							Clave de usuario: <input type="password" name="password" min="8" max="16" required placeholder="8-16 Caracteres" >
+						</label>
+						<label for="comprobacion">
+							Comprobación de la clave de usuario: <input type="password" name="comprobacion" min="8" max="16" required placeholder="Introduce tu contraseña" >
+						</label>
+
+						<button type="submit">Registrar</button>
+
+				</form>
+
+			</section>
+
+			<section id="sec-5" class="content oculta acercade">
+
+				<div class="texto-acercade">
+					<h2 class="Titulo-Acerca">Acerca de</h2>
+
+					<p> Desarrollo de la gestión de turnos de un comedor social para la asignatura "Servicios y aplicaciones telemáticas" de segundo curso del grado en ingeniería de
+						tecnologías de telecomunicación y el grado en ingeniería telemática de la universidad de Jaén.
+					</p>
+					
+					<aside><img src="comedoracercade.png"></aside>
+					
+					<p>Proyecto realizado por:</p>
+
+					<ul>
+						<li>David Zurera Fernández, grado en ingeniería de tecnologías de
+						telecomunicación.</li>
+						<li>Juan López Muñoz, doble grado en ingeniería de tecnologías de 
+						telecomunicación + ingeniería telemática.</li>
+						<li>Víctor Atero González, grado en ingeniería de tecnologías de
+						telecomunicación.</li> 
+						<li>José Antonio Ruiz Gómez, grado en ingeniería telemática.</li> 
+						<li>Claudia Valero Rus, grado en ingeniería de tecnologías de
+						telecomunicación.</li> 
+					</ul>
+
+				</div>
+
+			</section>
+
+			<section id="sec-6" class="content oculta crear">
+				<h2>En esta sección se podrá crear turno de voluntario</h2>
+				<table>
+							<caption>HORARIO</caption>
+
+							<thead>
+								<tr> <th>COMIDAS</th> <th>LUNES</th> <th>MARTES</th> <th>MIÉRCOLES</th> <th>JUEVES</th> <th>VIERNES</th> </tr>
+							</thead>
+
+								<tbody>	
+								<tr> <th>DESAYUNO</th> <td>Grupo A</td> <td>Grupo C</td> <td>Grupo B</td> <td>Grupo A</td> <td>Grupo B</td>  </tr>
+								<tr> <th>COMIDA</th> <td>Grupo B</td> <td>Grupo A</td> <td>Grupo C</td> <td>Grupo B</td> <td>Grupo C</td> </tr>
+								<tr> <th>CENA</th> <td>Grupo C</td> <td>Grupo B</td> <td>Grupo A</td> <td>Grupo C</td> <td>Grupo A</td> </tr>
+								</tbody>
+							
+				</table>
+
+				<form name="crear" onsubmit="Crear(event)" >
+
+					<label>Nombre voluntario:</label>
+					<input type="text" name="nombre" required>
+
+					<label for="crear-dia">Día:</label>
+					<select id="crear-dia" name="dia" required>
+						<option value="" selected disabled>Selecciona un día</option>
+						<option value="lunes">Lunes</option>
+						<option value="martes">Martes</option>
+						<option value="miercoles">Miércoles</option>
+						<option value="jueves">Jueves</option>
+						<option value="viernes">Viernes</option>
+					</select>
+
+					<label for="crear-grupo">Grupo:</label>
+					<select id="crear-grupo" name="grupo" required>
+						<option value="" selected disabled>Selecciona un grupo</option>
+						<option value="A">A</option>
+						<option value="B">B</option>
+						<option value="C">C</option>
+					</select>
+
+					<button type="submit">Guardar turnos</button>
+				</form>
+
+			</section>
+
+			<section id="sec-7" class="content oculta">
+				<h2>Lista de turnos</h2>
+				<div>
+					<p>Aquí se podrá ver la lista los turnos registrados.</p>
+				</div>
+			</section>
+
+			<section id="sec-8" class="content oculta modificar">
+		
+				<form name="modificar" onsubmit="Modificar(event)">
+					<h2>Haz cambios en tu turno</h2>
+					<label>
+						Nombre voluntario:  <input type="nombre" name="nombre" required>
+					</label>
+
+					<label for="modificar-dia">Día:</label>
+					<select id="modificar-dia" name="dia" required>
+						<option value="" selected disabled>Selecciona un día</option>
+						<option value="lunes">Lunes</option>
+						<option value="martes">Martes</option>
+						<option value="miercoles">Miércoles</option>
+						<option value="jueves">Jueves</option>
+						<option value="viernes">Viernes</option>
+					</select>
+
+					<label for="modificar-grupo">Grupo:</label>
+					<select id="modificar-grupo" name="grupo" required>
+						<option value="" selected disabled>Selecciona un grupo</option>
+						<option value="A">A</option>
+						<option value="B">B</option>
+						<option value="C">C</option>
+					</select>
+
+					<button type="submit">Actualiza tu turno</button>
+				</form>
+			</section>
+
+
+			<!--Aside fijo para todas las secciones-->
+			<aside class="aside-fijo">
+				<h4> "Linares cuida, Linares proteje"</h4>
+
+				<p> Este tipo de servicio consigue estabilizar la desigualdad
+					 entre los distintos sectores de la población. El comedor no 
+					 solo es un punto de distribución de alimentos o ayuda 
+					 humanitaria, es un núcleo de integración social. Distintos 
+					 perfiles que sufren de la misma condición comparten vivencias,
+					  lo que reduce el sentimiento de exclusión. Por otro lado, el 
+					  proyecto sirve como foco social, exponiendo la realidad de la 
+					  sociedad en la que vivimos, concienciando sobre la necesidad de 
+					  tomar medidas de carácter político y social.</p>
+
+					  <h5> SERVICIOS</h5>
+					  <li>Ropero solidario.</li>
+					  <li>Área de orientación sociolaboral.</li>
+					  <li>Reparto de desayunos infantiles.</li>
+					  <li>Dispensador de botellas de agua gratuitas.</li>
+					  <li>Recogida de material escolar.</li>
+					  <li>Acceso a personas con movilidad reducida.</li>
+					  <li>Recogida de alimentos.</li>
+					  
+					  <h5>ENTIDADES COLABORADORAS</h5>
+					  <img src="entidadesbien.png" alt="Comedor" class="logo">
+				
+			</aside>
+
+
+
+		</div>
+	</main>
+
+
+	<footer>
+
+		<div class="footer1">
+			<p>Ingenieros DVJJAC<br>Servicios y Aplicaciones Telemáticas<br><br></p>
+		</div>
+
+		<div class="footer2">
+			<p>Grado en ingeniería telemática
+			Grado en ingeniería de tecnologías de telecomunicación.<br>
+			Doble grado en ingeniería de tecnologías de telecomunicación + ingeniería telemática.<br>
+			Curso 2025-26</p><br>
+		</div>
+
+		<div class="footer3">
+			<p> 2026 Amor y Lentejas.🍲<br>Teléfono de contacto: <a href="tel:+34600000000">600 000 000☎️</a></p>
+    	</div>
+
+		<div class="footer4">
+			<h4>Encuentranos en nuestras redes sociales:</h4>
+			<div class="redes-sociales">
+				
+				<div class="red">
+					<img src="facebook.png" alt="Facebook">
+					<p>Facebook</p>
+				</div>
+
+				<div class="red">
+					<img src="x.jpg" alt="X">
+					<p>X</p>
+				</div>
+
+				<div class="red">
+					<img src="insta.jpg" alt="Instagram">
+					<p>Instagram</p>
+				</div>
+			</div>
+		</div>
+	</footer>
+
+ <script src="script.js"></script>
+
+</body>
+</html>

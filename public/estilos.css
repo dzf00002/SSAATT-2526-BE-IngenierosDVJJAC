@@ -1,0 +1,381 @@
+body{
+    background-color:  rgb(216, 214, 214);
+}
+
+header{
+    display: flex;
+    align-items: center;       /* Alinea verticalmente logo y título */
+    justify-content: center;
+    gap: 1em;                  /*Espacio entre logo y título */
+    padding: 0.5em 5em;
+}
+
+/*Ajusta el tamaño del logo*/
+.logo{
+    width: 100px;
+    height: auto;
+    display: block;
+}
+
+
+header h1{
+    color: rgb(235, 2, 2);
+    /*background-color: rgb(255, 255, 255);*/
+    text-align: center;
+    padding: 0.5em;
+    margin: 0;
+    font-size: 3em;
+}
+
+/*Estilo seccion de inicio*/
+.inicio{                                    
+    margin-top: 3em;
+    margin-bottom: 3em;
+    width: 85%;          
+    max-width: 900px;     
+    margin-left: auto;    
+    margin-right: auto;
+    border-radius: 15px;
+}
+
+/*Estilo encabezado seccion de inicio*/
+.inicio h2{                                 
+    color:rgb(255, 255, 255);
+    background-color: rgb(204, 1, 1);
+    border-radius: 15px;
+    text-align: center;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; 
+    font-size: 40px; 
+}
+
+/*Estilo parrafo seccion inicio*/
+.inicio p{                                 
+    color:rgb(0, 0, 0);
+    text-align: justify;
+    max-width: 800px; 
+    margin: 2em;
+    font-size:20px;
+}
+
+/*Contenedor de main y aside fijo*/
+.Contenedor{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2em;
+    width: 85%;
+    margin: 3em;
+}
+
+.aside-fijo{
+    width:30%;
+    padding:10px;
+    border-radius:10px;
+}
+
+/*Estilo imagen del contenedor*/
+.Contenedor img{
+    width: 400px;
+    height: auto;
+    display: block;
+}
+
+.menusemana {
+    margin-top: 3em;
+}
+
+/*Estilo tabla menu semanal*/
+table{
+    width: 80%;
+    padding: 10px;
+    margin-left: auto; 
+    margin-right: auto;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    text-align: center;
+}
+
+table caption{
+    color:rgb(255, 255, 255);
+    font-size:x-large;
+    text-align: center;
+    background-color:rgb(235, 2, 2);
+    border: 1px solid black;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+
+
+}
+
+table, th, td {
+  border: 1px solid black; 
+  border-collapse: collapse; 
+  padding: 5px;
+  font-size:1.2em;
+}
+
+th {
+    color:rgb(255, 255, 255);
+    background-color:  rgb(204, 1, 1); 
+}
+/*///////////////////////////////////////////////////////////////////////////////*/
+
+
+/*Estilos para formularios*/
+form{
+    width:20em;
+    padding:1em;
+}
+
+ form h2{
+    text-align: center;
+
+}
+
+ label{
+    font-weight: bold;
+    display:block;
+    margin-top: 0.5em;
+ }
+
+button{
+    margin-top: 1em;
+    width: 100%;
+    padding:0.5em;
+    color:blue;
+}
+.titulo-autent{
+    text-align: center;
+    margin-top: 40px;
+    /*background-color: rgb(247, 208, 208);*/
+}
+
+input, select{                  /*La coma hace que se aplique esas propiedades a los dos objetos*/
+    width: 100%;
+    padding: 0.5em;
+    border: solid;
+    box-sizing: border-box;
+}
+/************************************************************************************/
+
+
+.ayuda{
+    display: block;
+    margin:auto;
+    width: 200px;
+    height: auto;
+}
+
+
+.autentificacion{
+   /* background-color:rgb(255, 255, 255);*/
+    padding:2em;
+    text-align:center;
+    margin-bottom: 1.5em;
+    border-radius: 0.5;
+    display:flex;
+    gap:50px;
+    align-items:flex-start;
+    justify-content: center;
+}
+.autentificacion aside{
+    max-width: 20em;
+    margin:0;
+    font-size:1.2em;
+   border:solid red;
+}
+
+.autentificacion form{
+    background-color:rgb(204, 1, 1);
+    color: rgb(255, 255, 255);
+    padding:2em;
+    margin:0;
+    border-radius:2em;
+    margin-bottom: 100px;
+    }
+
+.menu{
+    margin-bottom: 3em;
+    background-color: rgb(204, 1, 1);
+    border-bottom: solid;
+    padding:0.8em;
+    gap:2em;
+    display:flex;
+    justify-content: center; 
+}
+
+.menu a{
+color:rgb(255, 255, 255);
+font-family: serif;
+padding:0.5em;
+font-size:1.2em;
+}
+
+form h3{
+    text-align: center;
+}
+
+.Titulo-Registro{
+    text-align: center;
+    margin-top: 40px;
+    /*background-color: rgb(247, 208, 208);*/
+}
+
+.registro{
+    /*background-color:rgb(255, 255, 255);*/
+    padding:2em;
+    text-align:center;
+    margin-bottom: 1.5em;
+    border-radius: 0.5;
+    display:flex;
+    gap:50px;
+    align-items:flex-start;
+    justify-content: center;
+}
+
+.registro form{
+    background-color:rgb(204, 1, 1);
+    color: rgb(255, 255, 255);
+    padding:2em;
+    margin:0;
+    border-radius:2em;
+    margin-bottom: 100px;
+}
+
+.registro aside{              /*Aside de registro*/
+    max-width: 20em;
+    margin:0;
+    font-size:1.2em;
+   border:solid red;
+}
+
+.Titulo-Acerca{
+    text-align: center;
+    margin-top: 40px;
+    /*background-color: rgb(247, 208, 208);*/
+}
+
+.acercade{
+    /*background-color:rgb(255, 255, 255);*/
+    padding:2em;
+    margin-bottom: 1.5em;
+    border-radius: 0.5;
+    display:flex;
+    gap:3em;
+    align-items:flex-start;
+    justify-content: center;
+    text-align: center;
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.texto-acercade{
+    flex:2;
+    max-width: 500px;
+    font-size:1.2em;
+    line-height: 1.6;
+}
+
+.texto-acercade p{        /*Modifica el primer parrafo de acerca de*/
+    margin-bottom:1em;
+}
+
+.texto-acercade ul{       /*Modifica la lista de acerca de */
+    margin-top: 3em;
+    display: flex;
+    margin:0;
+    padding: 1.5em;
+    text-align: left;
+}
+
+.acercade aside img{     /*Aside de acerca de */
+    flex:1;
+    width:400px;
+    height:auto;
+    border-radius: 8px;
+}
+
+footer{
+    /*background-color: rgb(247, 208, 208);*/
+    padding:10px;
+    text-align: center;
+    display: flex;
+    gap:50px;
+    border-top: solid;
+    align-items: center;
+    justify-content: center;
+}
+footer p{
+    max-width: 600px;
+    margin:auto;
+    line-height: 1.5;
+}
+
+.redes-sociales{
+    display:flex;
+    justify-content:center;
+    gap:50px;
+    align-items: center;
+    text-align: center;
+    
+}
+.red img{
+    width: 25px;
+    height:25px;
+}
+
+/* Estilos para el cartel de error */
+div#Cartel_error {
+    background-color:red;
+    color: white;            
+    text-align: center;      
+    padding: 15px;          
+    font-weight: bold;         
+    font-size: 1.2em;        
+    width: 100%;               
+    box-sizing: border-box;
+    margin: 0;
+}
+
+h4{
+color:rgb(204, 1, 1);
+text-align: center;
+font-family: serif;
+padding:0.5em;
+font-size:1.2em; 
+}
+
+h5{
+color:rgb(255, 255, 255);
+background-color: rgb(204, 1, 1);
+border-radius: 15px;
+text-align: center;
+font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; 
+font-size: 15px;  
+}
+
+.visible{
+    display:block;
+}
+.oculta{
+    display:none;
+}
+
+.crear form{
+     background-color:rgb(204, 1, 1);
+    color: rgb(255, 255, 255);
+    padding:2em;
+    margin:50px auto;
+    border-radius:2em;
+    margin-bottom: 100px;
+    width:300px;
+}
+.modificar form{
+     background-color:rgb(204, 1, 1);
+    color: rgb(255, 255, 255);
+    padding:2em;
+    margin:50px auto;
+    border-radius:2em;
+    margin-bottom: 100px;
+    width:300px;
+
+}

@@ -6,6 +6,7 @@ const os = require("node:os"); //Obtiene información del SO y nombre de la maqu
 const dns = require("node:dns"); //Obtiene la IP asociada al nombre del equipo
 const { MongoClient, ObjectId } = require("mongodb"); //Permite conectarse a mongo y crear un identificador
 
+
 //Datos del servicio 
 const VERSION = "1.0";
 const SERVICE_NAME = "API Amor y Lentejas (IngenierosDVJJAC)";
@@ -28,7 +29,9 @@ const DB_USERS_COLLECTION = "voluntarios";
 const DB_TURNOS_COLLECTION = "turnos";
 
 // Express 
-const app = new express(); //Crea la aplicacion del servidor
+const path = require("node:path");
+const app =  express(); //Crea la aplicacion del servidor
+app.use(express.static(path.join(__dirname, "/public")));
 app.use(express.json());  //Permite que Express pueda leer las peticiones en JSON mediante el objeto (req),empleando la propiedad req.body.
 app.use((req, res, next) => {
   console.log("[SERVIDOR] Petición entrante: " + req.method + " " + req.path); //Hace que se pase el proceso al siguiente endpoint que coincida
