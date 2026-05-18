@@ -1,7 +1,7 @@
 // Variables para para la simulación del login y registro 
 let testuser = false; 
 const testmail = "amorylentejas@red.ujaen.es";
-const testkey = "comedorsocial";
+const testkey = "1";
 //Funcion para comprobar que el correo introducido es igual al definido
 function checking(mail, key)
 {
@@ -73,10 +73,9 @@ function FormularioLogin(event){
             for (let clases of clasesprivadas) {
                 clases.classList.remove("oculta");
             }
-        
         }
             document.getElementById("nav-3").classList.add("oculta");
-    document.getElementById("nav-4").classList.add("oculta");
+            document.getElementById("nav-4").classList.add("oculta");
     }
     else {
         showError("El correo o la contraseña no son correctos.");
@@ -117,6 +116,8 @@ function Registro(event){
     
 
 }
+
+
 function Crear(event){
     //esto evita la recarga de la pag
     event.preventDefault();
@@ -204,9 +205,293 @@ function showSection(sectionId) {
       showSection(1);
 };
 
-  
 
 
+/* ========================= */
+/* SECCIONES 6 Y 8 - TURNOS  */
+/* ========================= */
+
+// Lista de turnos disponibles en la tabla.
+// Cada objeto representa una celda de la tabla.
+let turnos = [
+	{ id: "turno-lunes-desayuno", dia: "Lunes", comida: "Desayuno", estado: "libre" },
+	{ id: "turno-martes-desayuno", dia: "Martes", comida: "Desayuno", estado: "libre" },
+	{ id: "turno-miercoles-desayuno", dia: "Miércoles", comida: "Desayuno", estado: "libre" },
+	{ id: "turno-jueves-desayuno", dia: "Jueves", comida: "Desayuno", estado: "libre" },
+	{ id: "turno-viernes-desayuno", dia: "Viernes", comida: "Desayuno", estado: "libre" },
+
+	{ id: "turno-lunes-comida", dia: "Lunes", comida: "Comida", estado: "libre" },
+	{ id: "turno-martes-comida", dia: "Martes", comida: "Comida", estado: "libre" },
+	{ id: "turno-miercoles-comida", dia: "Miércoles", comida: "Comida", estado: "libre" },
+	{ id: "turno-jueves-comida", dia: "Jueves", comida: "Comida", estado: "libre" },
+	{ id: "turno-viernes-comida", dia: "Viernes", comida: "Comida", estado: "libre" },
+
+	{ id: "turno-lunes-cena", dia: "Lunes", comida: "Cena", estado: "libre" },
+	{ id: "turno-martes-cena", dia: "Martes", comida: "Cena", estado: "libre" },
+	{ id: "turno-miercoles-cena", dia: "Miércoles", comida: "Cena", estado: "libre" },
+	{ id: "turno-jueves-cena", dia: "Jueves", comida: "Cena", estado: "libre" },
+	{ id: "turno-viernes-cena", dia: "Viernes", comida: "Cena", estado: "libre" }
+];
+
+// Cuando cargue la página, se preparan los eventos de la tabla y botones.
+window.addEventListener("load", function () {
+	iniciarTurnos();
+});
+
+function iniciarTurnos() {
+
+	for (let i = 0; i < turnos.length; i++) {
+
+		let celda = document.getElementById(turnos[i].id);
+
+		if (celda != null) {
+			celda.addEventListener("click", function () {
+				marcarTurno(turnos[i].id);
+			});
+		}
+	}
+
+	let botonConfirmar = document.getElementById("btn-confirmar-turnos");
+
+	if (botonConfirmar != null) {
+		botonConfirmar.addEventListener("click", function () {
+			confirmarTurnos();
+		});
+	}
+
+	let botonCambiar = document.getElementById("btn-cambiar-turno");
+
+	if (botonCambiar != null) {
+		botonCambiar.addEventListener("click", function () {
+			cambiarTurno();
+		});
+	}
+
+	actualizarPantallaTurnos();
+}
+
+function buscarTurno(idTurno) {
+
+	for (let i = 0; i < turnos.length; i++) {
+
+		if (turnos[i].id === idTurno) {
+			return turnos[i];
+		}
+	}
+
+	return null;
+}
+
+function marcarTurno(idTurno) {
+
+	let turno = buscarTurno(idTurno);
+
+	if (turno == null) {
+		return;
+	}
+
+	if (turno.estado === "reservado") {
+		showError("Ese turno ya está reservado.");
+		return;
+	}
+
+	if (turno.estado === "libre") {
+		turno.estado = "marcado";
+	} else {
+		turno.estado = "libre";
+	}
+
+	actualizarPantallaTurnos();
+}
+
+function confirmarTurnos() {
+
+	let contador = 0;
+
+	for (let i = 0; i < turnos.length; i++) {
+
+		if (turnos[i].estado === "marcado") {
+			turnos[i].estado = "reservado";
+			contador++;
+		}
+	}
+
+	if (contador === 0) {
+		showError("No has seleccionado ningún turno.");
+		return;
+	}
+
+	actualizarPantallaTurnos();
+	console.log("Turnos actualizados:", turnos);
+}
+
+function eliminarTurno(idTurno) {
+
+	let turno = buscarTurno(idTurno);
+
+	if (turno != null && turno.estado === "reservado") {
+		turno.estado = "libre";
+	}
+
+	actualizarPantallaTurnos();
+}
+
+function cambiarTurno() {
+
+	let selectActual = document.getElementById("turno-actual");
+	let selectNuevo = document.getElementById("turno-nuevo");
+
+	if (selectActual == null || selectNuevo == null) {
+		return;
+	}
+
+	let idActual = selectActual.value;
+	let idNuevo = selectNuevo.value;
+
+	if (idActual === "" || idNuevo === "") {
+		showError("Selecciona el turno reservado y el nuevo turno disponible.");
+		return;
+	}
+
+	let turnoActual = buscarTurno(idActual);
+	let turnoNuevo = buscarTurno(idNuevo);
+
+	if (turnoActual == null || turnoNuevo == null) {
+		showError("No se ha podido realizar el cambio.");
+		return;
+	}
+
+	if (turnoActual.estado !== "reservado") {
+		showError("El turno que quieres cambiar ya no está reservado.");
+		return;
+	}
+
+	if (turnoNuevo.estado !== "libre") {
+		showError("El nuevo turno ya no está libre.");
+		return;
+	}
+
+	turnoActual.estado = "libre";
+	turnoNuevo.estado = "reservado";
+
+	actualizarPantallaTurnos();
+	console.log("Cambio realizado:", turnos);
+}
+
+function actualizarPantallaTurnos() {
+
+	actualizarTablaTurnos();
+	mostrarTurnosReservados();
+	actualizarSelectoresCambio();
+}
+
+function actualizarTablaTurnos() {
+
+	for (let i = 0; i < turnos.length; i++) {
+
+		let celda = document.getElementById(turnos[i].id);
+
+		if (celda != null) {
+
+			celda.classList.remove("libre");
+			celda.classList.remove("marcado");
+			celda.classList.remove("reservado");
+
+			if (turnos[i].estado === "libre") {
+				celda.textContent = "Disponible";
+				celda.classList.add("libre");
+			}
+
+			if (turnos[i].estado === "marcado") {
+				celda.textContent = "Seleccionado";
+				celda.classList.add("marcado");
+			}
+
+			if (turnos[i].estado === "reservado") {
+				celda.textContent = "Reservado";
+				celda.classList.add("reservado");
+			}
+		}
+	}
+}
+
+function mostrarTurnosReservados() {
+
+	let lista = document.getElementById("lista-turnos");
+
+	if (lista == null) {
+		return;
+	}
+
+	lista.innerHTML = "";
+
+	for (let i = 0; i < turnos.length; i++) {
+
+		if (turnos[i].estado === "reservado") {
+
+			let elemento = document.createElement("li");
+			elemento.textContent = turnos[i].dia + " - " + turnos[i].comida;
+
+			let botonEliminar = document.createElement("button");
+			botonEliminar.textContent = "Eliminar";
+			botonEliminar.type = "button";
+			botonEliminar.classList.add("boton-lista");
+
+			botonEliminar.addEventListener("click", function () {
+				eliminarTurno(turnos[i].id);
+			});
+
+			elemento.appendChild(botonEliminar);
+			lista.appendChild(elemento);
+		}
+	}
+}
+
+function actualizarSelectoresCambio() {
+
+	let selectActual = document.getElementById("turno-actual");
+	let selectNuevo = document.getElementById("turno-nuevo");
+
+	if (selectActual == null || selectNuevo == null) {
+		return;
+	}
+
+	selectActual.innerHTML = "";
+	selectNuevo.innerHTML = "";
+
+	crearOpcionInicial(selectActual, "Selecciona un turno reservado");
+	crearOpcionInicial(selectNuevo, "Selecciona un turno libre");
+
+	for (let i = 0; i < turnos.length; i++) {
+
+		if (turnos[i].estado === "reservado") {
+			crearOpcion(selectActual, turnos[i]);
+		}
+
+		if (turnos[i].estado === "libre") {
+			crearOpcion(selectNuevo, turnos[i]);
+		}
+	}
+}
+
+function crearOpcionInicial(select, texto) {
+
+	let opcion = document.createElement("option");
+	opcion.value = "";
+	opcion.textContent = texto;
+
+	select.appendChild(opcion);
+}
+
+function crearOpcion(select, turno) {
+
+	let opcion = document.createElement("option");
+
+	opcion.value = turno.id;
+	opcion.textContent = turno.dia + " - " + turno.comida;
+
+	select.appendChild(opcion);
+}
 
 
 
