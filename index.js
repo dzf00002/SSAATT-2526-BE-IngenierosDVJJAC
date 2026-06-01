@@ -6,6 +6,8 @@ const os = require("node:os"); //Obtiene información del SO y nombre de la maqu
 const dns = require("node:dns"); //Obtiene la IP asociada al nombre del equipo
 const { MongoClient, ObjectId } = require("mongodb"); //Permite conectarse a mongo y crear un identificador
 
+//COnecta index.js con login.js
+const loginRouter = require("./routes/login");
 
 //Datos del servicio 
 const VERSION = "1.0";
@@ -40,30 +42,29 @@ app.use((req, res, next) => {
 
 
 //Endpoint post/login
-app.post("/login", (req, res) => {
+// app.post("/login", (req, res) => {
 
-  // Comprueba que la petición incluye un cuerpo JSON
-  if (req.body != undefined) { //Comprueba si la petición tiene cuerpo
-    if (req.body.user === undefined || req.body.password === undefined)
-    {
-      res.status(STATUS_BADFORMAT).end(); //Si falta user o password devuelve error 400
-    } 
-    else if (req.body.user === "user" && req.body.password === "1234") 
-    {
-      res.status(STATUS_OK).end(); //Si son correctas devuelve 200
-    } 
-    else
-    {
-        res.status(STATUS_UNAUTHORIZED).end(); //Si no coinciden devuelve 401
-    }
-  } 
-  else
-  {
-    res.status(STATUS_BADFORMAT).end(); //Devuelve 400 si no tiene cuerpo
-  }
+//   // Comprueba que la petición incluye un cuerpo JSON
+//   if (req.body != undefined) { //Comprueba si la petición tiene cuerpo
+//     if (req.body.user === undefined || req.body.password === undefined)
+//     {
+//       res.status(STATUS_BADFORMAT).end(); //Si falta user o password devuelve error 400
+//     } 
+//     else if (req.body.user === "user" && req.body.password === "1234") 
+//     {
+//       res.status(STATUS_OK).end(); //Si son correctas devuelve 200
+//     } 
+//     else
+//     {
+//         res.status(STATUS_UNAUTHORIZED).end(); //Si no coinciden devuelve 401
+//     }
+//   } 
+//   else
+//   {
+//     res.status(STATUS_BADFORMAT).end(); //Devuelve 400 si no tiene cuerpo
+//   }
 
-});//User:user y password:1234
-
+// });//User:user y password:1234
 
 
 // Funcion para comprobar que el cliente ha enviado datos
@@ -371,7 +372,14 @@ app.delete("/turnos/:id", function (req, res) {//Le decimos que elimine segun id
 
 
 
+// Tarea 1.2 - Router para el endpoint de autenticación
 
+const API = {
+  LOGIN: "/login"
+};
+
+// Se conecta el router de login con la aplicación Express
+app.use(API.LOGIN, loginRouter);
 // Endpoint final por si la ruta no existe
 app.use((req, res) => {//Express lee todo el codigo, y si la ruta no existe salta el error
   res.status(STATUS_NOTFOUND).end();
