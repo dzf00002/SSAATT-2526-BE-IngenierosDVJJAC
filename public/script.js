@@ -2,6 +2,9 @@
 let testuser = false; 
 const testmail = "amorylentejas@red.ujaen.es";
 const testkey = "1";
+// Definir donde está el servidor
+const SERVER_URL = ""; 
+const API_LOGIN = SERVER_URL + "/login";
 //Funcion para comprobar que el correo introducido es igual al definido
 function checking(mail, key)
 {
@@ -49,7 +52,7 @@ function showError(message) {
 }
 
 //tarea 3
-function FormularioLogin(event){
+/*function FormularioLogin(event){
     //esto evita la recarga de la pag
     event.preventDefault();
     //nos dice que el botón y la función estan conectados
@@ -81,6 +84,61 @@ function FormularioLogin(event){
         showError("El correo o la contraseña no son correctos.");
     }
 }
+*/
+//tarea 2 de FASE 4
+// TAREA 2: Nueva función de login conectada al Back-End
+function FormularioLogin(event){
+    // Esto evita la recarga de la página
+    event.preventDefault();
+    console.log("Enviando Inicio de sesión al servidor...");
+    
+    // Busca los datos en el HTML
+    let email = document.forms.login.email.value;
+    let password = document.forms.login.password.value;
+    
+    // Empaquetamos los datos. OJO: El servidor espera "user", no "email".
+    let auth = {
+        "user": email, 
+        "password": password
+    };
+    
+    // Hacemos la petición real al backend usando fetch()
+    fetch(API_LOGIN, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(auth)
+    })
+    .then(function(response) {
+        if (response.status === 200) {
+            console.log("Usuario autenticado con éxito en el servidor.");
+            testuser = true; 
+            
+            // Lógica visual para mostrar el menú privado (igual que en tu fase anterior)
+            let clasesprivadas = document.querySelectorAll(".menuprivado");
+            if (clasesprivadas != null) {
+                for (let clases of clasesprivadas) {
+                    clases.classList.remove("oculta");
+                }
+            }
+            document.getElementById("nav-3").classList.add("oculta");
+            document.getElementById("nav-4").classList.add("oculta");
+            
+            // Llevamos al usuario a la pantalla principal tras loguearse
+            showSection("1"); 
+            
+        } else {
+            // Si el servidor devuelve 401 (No autorizado) o 400 (Mal formato)
+            showError("El correo o la contraseña no son correctos.");
+        }
+    })
+    .catch(function(error) {
+        // Por si el servidor está apagado o falla la red
+        console.error("Error de conexión:", error);
+        showError("No hay conexión con el servidor.");
+    });
+} //Hasta aqui la tarea 2 de fase 4
 
 function Registro(event){
     //esto evita la recarga de la pag
