@@ -674,3 +674,73 @@ function crearElementoUsuario(usuario) {
 
     return divUsuario;
 }
+/* ========================================= */
+/* TAREA 5 FASE 4 - MOSTRAR DETALLES (MODAL) */
+/* ========================================= */
+
+// Función asíncrona para solicitar un usuario específico
+async function verDetallesUsuario(idUsuario) {
+    console.log("Solicitando detalles del usuario con ID: " + idUsuario);
+
+    // Se concatena la URL base con el ID. Ejemplo: /users/64a...
+    let urlDetalles = API_USERS + "/" + idUsuario;
+
+    try {
+        let response = await fetch(urlDetalles, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        });
+
+        if (response.ok) {
+            let usuario = await response.json();
+            abrirModalDetalles(usuario);
+        } else if (response.status === 404) {
+            showError("El usuario solicitado no existe.");
+        } else {
+            console.log("Error al obtener detalles. Código:", response.status);
+            showError("No se pudo obtener la información del voluntario.");
+        }
+    } catch (error) {
+        console.error("Error de red al intentar ver detalles:", error);
+        showError("No hay conexión con el servidor.");
+    }
+}
+
+// Función para inyectar los datos en el HTML y abrir el modal
+function abrirModalDetalles(usuario) {
+    let modal = document.getElementById("modal-detalles-usuario");
+    let contenido = document.getElementById("contenido-detalles");
+
+    if (modal != null && contenido != null) {
+        // Limpiamos contenido anterior e inyectamos el nuevo
+        // Usamos los campos que definiste en tu formulario de registro (name, apellidos, user)
+        contenido.innerHTML = `
+            <p><strong>ID de base de datos:</strong> ${usuario._id}</p>
+            <p><strong>Correo (Usuario):</strong> ${usuario.user}</p>
+            <p><strong>Nombre:</strong> ${usuario.name || 'No especificado'}</p>
+            <p><strong>Apellidos:</strong> ${usuario.apellidos || 'No especificado'}</p>
+        `;
+
+        // El método nativo showModal() bloquea el resto de la página
+        modal.showModal();
+    }
+}
+
+// Función para cerrar el cuadro de diálogo
+function cerrarModalDetalles() {
+    let modal = document.getElementById("modal-detalles-usuario");
+    if (modal != null) {
+        modal.close(); // Método nativo para cerrar el modal
+    }
+}
+// Botón para mostrar detalles (Tarea 5)
+    let btnDetalles = document.createElement("button");
+    btnDetalles.textContent = "Ver Detalles";
+    btnDetalles.type = "button";
+    
+    // Aquí usamos la función flecha como callback para guardar el contexto de 'usuario._id'
+    btnDetalles.addEventListener("click", () => {
+        verDetallesUsuario(usuario._id);
+    });
