@@ -19,12 +19,9 @@ header{
 
 
 header h1{
-<<<<<<< HEAD
     color: rgb(235, 2, 2);
-=======
     color: rgb(204, 1, 1);
     /*background-color: rgb(255, 255, 255);*/
->>>>>>> 773674d90f819b222868468100fdf8fdb03f9f85
     text-align: center;
     padding: 0.5em;
     margin: 0;
@@ -261,7 +258,6 @@ form h3{
     /*background-color:rgb(255, 255, 255);*/
     padding:2em;
     margin-bottom: 1.5em;
-    border-radius: ;
     display:flex;
     gap:3em;
     align-items:flex-start;
