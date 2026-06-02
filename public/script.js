@@ -176,43 +176,6 @@ function Registro(event){
 
 }
 
-
-function Crear(event){
-    //esto evita la recarga de la pag
-    event.preventDefault();
-    //nos dice que el botón y la función estan conectados
-    console.log("enviando turno creado...");
-    //busca los datos en el HTML y lo guarda en la variable corresponciente
-    let nombre= document.forms.crear.nombre.value;
-    let dia=document.forms.crear.dia.value;
-    let grupo=document.forms.crear.grupo.value;
-    //crea un objeto de autentificación, mete en el mismo sitio el email, la contraseña y la fecha
-    let auth={
-        "nombre":nombre,
-        "dia": dia,
-        "grupo":grupo
-    };
-    //Guarda los datos en la variable JSON
-    let datosJSON = JSON.stringify(auth);
-    console.log("Turno creado:", datosJSON);
-
-}
-
-function Modificar(event){
-    event.preventDefault(); //Evitar recarga de la pagina
-    //Leemos los datos del formulario modificar
-    let nombre = document.forms.modificar.nombre.value;
-    let dia = document.forms.modificar.dia.value;
-    let grupo = document.forms.modificar.grupo.value;
-    let auth={
-        "nombre":nombre,
-        "dia": dia,
-        "grupo":grupo
-    };
-    let datosJSON = JSON.stringify(auth);
-    console.log("Turno modificado:", datosJSON);
-}
-
 //Dinamización de las secciones 
 var activeSection = "1";
 
