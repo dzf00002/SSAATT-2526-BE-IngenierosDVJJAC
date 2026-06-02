@@ -5,6 +5,7 @@ const testkey = "1";
 // Definir donde está el servidor
 const SERVER_URL = ""; 
 const API_LOGIN = SERVER_URL + "/login";
+const API_USERS = SERVER_URL + "/users";
 //Funcion para comprobar que el correo introducido es igual al definido
 function checking(mail, key)
 {
@@ -140,6 +141,75 @@ function FormularioLogin(event){
         showError("No hay conexión con el servidor.");
     });
 } //Hasta aqui la tarea 2 de fase 4
+
+
+// Tarea 3 Fase 4: Registro de usuarios
+async function doCreateUser(event) {
+
+    // Evita que se recargue la página al enviar el formulario
+    event.preventDefault();
+
+    console.log("Enviando registro al servidor...");
+
+    // Recogemos los datos del formulario
+    let usuario = document.forms.registro.usuario.value;
+    let email = document.forms.registro.email.value;
+    let nombre = document.forms.registro.nombre.value;
+    let apellidos = document.forms.registro.apellidos.value;
+    let password = document.forms.registro.password.value;
+    let comprobacion = document.forms.registro.comprobacion.value;
+
+    // Comprobamos que las contraseñas coinciden antes de enviar nada al servidor
+    if (password !== comprobacion) {
+        showError("La contraseña y su comprobación no coinciden.");
+        return;
+    }
+
+    // Creamos el objeto usuario que se enviará al backend
+    let user = {
+        user: email,
+        usuario: usuario,
+        name: nombre,
+        apellidos: apellidos,
+        password: password
+    };
+
+    // Llamamos a la función que hace el POST /users
+    let userId = await createUser(user);
+
+    if (userId != null) {
+        console.log("Usuario creado con id:", userId);
+        alert("Usuario registrado correctamente.");
+
+        // Después de registrarse, mandamos al usuario al login
+        showSection("3");
+
+    } else {
+        showError("No se ha podido registrar el usuario.");
+    }
+}
+
+// 2ªParte funcion Crear usuarios: Envía los datos al endpoint POST /users.
+async function createUser(user) {
+
+    let init = {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(user)
+    };
+
+    let response = await fetch(API_USERS, init);
+
+    if (response.ok) {
+        return await response.json();
+    } else {
+        console.log("Error al crear usuario. Código:", response.status);
+        return null;
+    }
+}
+//Fin de la tarea 3
 
 function Registro(event){
     //esto evita la recarga de la pag
