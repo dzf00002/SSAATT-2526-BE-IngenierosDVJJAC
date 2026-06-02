@@ -585,5 +585,92 @@ function crearOpcion(select, turno) {
 	select.appendChild(opcion);
 }
 
+/* ========================================= */
+/* TAREA 4 FASE 4 - OBTENER LISTA DE USUARIOS*/
+/* ========================================= */
 
+// 1. Función asíncrona para pedir la lista al servidor
+async function obtenerUsuarios() {
+    console.log("Solicitando lista de usuarios al servidor...");
 
+    // Se añade un parámetro de consulta (?limit=50) para cumplir 
+    // con la valoración positiva de la práctica (Tarea 4.5 del back-end)
+    let urlConFiltro = API_USERS + "?limit=50";
+
+    try {
+        let response = await fetch(urlConFiltro, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        });
+
+        if (response.ok) {
+            let listaUsuarios = await response.json();
+            mostrarUsuarios(listaUsuarios);
+        } else {
+            console.log("Error al obtener usuarios. Código:", response.status);
+            showError("No se pudo obtener el listado de usuarios.");
+        }
+    } catch (error) {
+        console.error("Error de red al intentar listar usuarios:", error);
+        showError("No hay conexión con el servidor.");
+    }
+}
+
+// 2. Función que recibe el array JSON y lo recorre
+function mostrarUsuarios(listaUsuarios) {
+    let contenedor = document.getElementById("lista-usuarios-contenedor");
+    
+    if (contenedor == null) {
+        return; // Prevención de errores si el div no existe
+    }
+
+    // Limpiamos la lista antes de volver a llenarla
+    contenedor.innerHTML = ""; 
+
+    // Recorremos el array JSON de usuarios devuelto por la base de datos
+    for (let i = 0; i < listaUsuarios.length; i++) {
+        let elementoHTML = crearElementoUsuario(listaUsuarios[i]);
+        contenedor.appendChild(elementoHTML);
+    }
+}
+
+// 3. Función auxiliar para fabricar cada nodo del DOM y sus botones
+function crearElementoUsuario(usuario) {
+    // Contenedor individual para cada usuario
+    let divUsuario = document.createElement("div");
+    divUsuario.classList.add("usuario-item"); // Puedes darle estilos en tu CSS
+    
+    // Le asignamos como ID el propio _id de MongoDB (Crucial para las Tareas 5 y 6)
+    divUsuario.id = "user-" + usuario._id;
+
+    // Texto con los datos básicos
+    let texto = document.createElement("span");
+    texto.textContent = usuario.name + " " + usuario.apellidos + " (" + usuario.user + ") ";
+
+    // Botón para mostrar detalles (Preparación para la Tarea 5)
+    let btnDetalles = document.createElement("button");
+    btnDetalles.textContent = "Ver Detalles";
+    btnDetalles.type = "button";
+    btnDetalles.addEventListener("click", function() {
+        // Aquí irá la lógica de la Tarea 5
+        console.log("Mostrando detalles del usuario:", usuario._id);
+    });
+
+    // Botón para borrar elemento (Preparación para la Tarea 6)
+    let btnBorrar = document.createElement("button");
+    btnBorrar.textContent = "Eliminar";
+    btnBorrar.type = "button";
+    btnBorrar.addEventListener("click", function() {
+        // Aquí irá la lógica de la Tarea 6
+        console.log("Eliminando usuario:", usuario._id);
+    });
+
+    // Ensamblamos el nodo
+    divUsuario.appendChild(texto);
+    divUsuario.appendChild(btnDetalles);
+    divUsuario.appendChild(btnBorrar);
+
+    return divUsuario;
+}
