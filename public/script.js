@@ -744,3 +744,5 @@ function cerrarModalDetalles() {
     btnDetalles.addEventListener("click", () => {
         verDetallesUsuario(usuario._id);
     });
+
+    
