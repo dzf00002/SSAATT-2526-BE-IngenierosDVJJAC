@@ -229,7 +229,7 @@ const vFlecha = (req, res, next) => {
 // 5. TAREA 5: CRUD DE TURNOS
 
 
-
+/*
 
 // POST /turnos - Crear un turno en la base de datos
   //Crea u nuevo turno en la base de datos
@@ -364,9 +364,142 @@ app.delete("/turnos/:id", function (req, res) {//Le decimos que elimine segun id
   run().catch(() => res.status(STATUS_SERVER_ERROR).end());
 });
 
+*/
 
+// =======================================================
+// CRUD DE TURNOS (CORREGIDO PARA EVITAR BSONError)
+// =======================================================
 
+// 1. POST /turnos - Crear (Reservar) un turno en la base de datos
+app.post("/turnos", vFlecha, function (req, res) {
+  const client = new MongoClient(DB_URL);
+  async function run() {
+    try {
+      const db = client.db(DB_NAME);
+      const turnos = db.collection(DB_TURNOS_COLLECTION);
+      
+      // Validación: Comprobamos la estructura real de nuestros turnos
+      if (!req.body.id || !req.body.dia || !req.body.comida) {
+        return res.status(STATUS_BADFORMAT).json({ error: "Faltan datos obligatorios (id, dia, comida)" });
+      }
 
+      // Forzamos el estado a "reservado" antes de guardar
+      req.body.estado = "reservado";
+
+      const result = await turnos.insertOne(req.body);
+      console.log(`[SERVIDOR] Turno insertado: ${req.body.id}`);
+      res.status(STATUS_CREATED).json({ _id: result.insertedId });
+    } finally {
+      await client.close();
+    }
+  }
+  run().catch((ex) => {
+    console.error("[SERVIDOR] POST /turnos: " + ex.toString());
+    res.status(STATUS_SERVER_ERROR).end();
+  });
+});
+
+// 2. GET /turnos - Leer todos los turnos reservados
+app.get("/turnos", function (req, res) {
+  const client = new MongoClient(DB_URL);
+  async function run() {
+    try {
+      const db = client.db(DB_NAME);
+      const turnos = db.collection(DB_TURNOS_COLLECTION);
+      const result = await turnos.find().toArray();
+      res.json(result);
+    } finally {
+      await client.close();
+    }
+  }
+  run().catch((ex) => {
+    console.error("[SERVIDOR] GET /turnos: " + ex.toString());
+    res.status(STATUS_SERVER_ERROR).end();
+  });
+});
+
+// 3. GET /turnos/:id - Leer un turno concreto
+app.get("/turnos/:id", function (req, res) {
+  const client = new MongoClient(DB_URL);
+  async function run() {
+    try {
+      const db = client.db(DB_NAME);
+      const turnos = db.collection(DB_TURNOS_COLLECTION);
+      
+      const idTurno = req.params.id; // Sin ObjectId
+      const result = await turnos.findOne({ id: idTurno });
+      
+      if (result) {
+        res.json(result);
+      } else {
+        res.status(STATUS_NOTFOUND).end();
+      }
+    } catch (error) {
+      res.status(STATUS_SERVER_ERROR).end();
+    } finally {
+      await client.close();
+    }
+  }
+  run().catch(() => res.status(STATUS_SERVER_ERROR).end());
+});
+
+// 4. PUT /turnos/:id - Modificar un turno existente
+app.put("/turnos/:id", vFlecha, function (req, res) {
+  const client = new MongoClient(DB_URL);
+  async function run() {
+    try {
+      const db = client.db(DB_NAME);
+      const turnos = db.collection(DB_TURNOS_COLLECTION);
+      
+      const idTurno = req.params.id; // Sin ObjectId
+
+      const result = await turnos.updateOne({ id: idTurno }, { $set: req.body });
+      
+      if (result.matchedCount === 1) {
+        console.log("[SERVIDOR] Turno actualizado correctamente: " + idTurno);
+        res.status(STATUS_OK).end();
+      } else {
+        res.status(STATUS_NOTFOUND).end();
+      }
+    } catch (error) {
+      res.status(STATUS_SERVER_ERROR).end();
+    } finally {
+      await client.close();
+    }
+  }
+  run().catch(() => res.status(STATUS_SERVER_ERROR).end());
+});
+
+// 5. DELETE /turnos/:id - Borrar (Anular) un turno de la base de datos
+app.delete("/turnos/:id", function (req, res) {
+  const client = new MongoClient(DB_URL);
+  async function run() {
+    try {
+      const db = client.db(DB_NAME);
+      const turnos = db.collection(DB_TURNOS_COLLECTION);
+      
+      const idTurno = req.params.id; // Sin ObjectId
+      
+      const result = await turnos.deleteOne({ id: idTurno }); 
+      
+      if (result.deletedCount === 1) {
+        console.log("[SERVIDOR] Turno anulado correctamente: " + idTurno);
+        res.status(STATUS_OK).end();
+      } else {
+        res.status(STATUS_NOTFOUND).end();
+      }
+    } catch (error) {
+      res.status(STATUS_SERVER_ERROR).end();
+    } finally {
+      await client.close();
+    }
+  }
+  run().catch(() => res.status(STATUS_SERVER_ERROR).end());
+});
+
+// =======================================================
+// FIN DEL CRUD DE TURNOS
+// =======================================================
 
 
 //ERROR 404 Y ARRANQUE DEL SERVIDOR
