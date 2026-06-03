@@ -1,6 +1,6 @@
-// ==========================================
+
 // CONFIGURACIÓN Y VARIABLES
-// ==========================================
+
 let testuser = false; 
 const SERVER_URL = ""; 
 const API_LOGIN = SERVER_URL + "/login";
@@ -24,9 +24,8 @@ function showError(message) {
   }
 }
 
-// ==========================================
 // TAREA 2: LOGIN 
-// ==========================================
+
 function FormularioLogin(event){
     event.preventDefault();
     console.log("Enviando Inicio de sesión al servidor...");
@@ -62,9 +61,8 @@ function FormularioLogin(event){
     });
 }
 
-// ==========================================
+
 // TAREA 3: REGISTRO DE NUEVOS VOLUNTARIOS
-// ==========================================
 
 // Función que recoge los datos introducidos en el formulario de registro y comprueba que la contraseña y su confirmación coinciden.
 async function doCreateUser(event) {
@@ -399,7 +397,7 @@ async function cambiarTurno() {
         return;
     }
 
-    // 1. Preparamos los datos del NUEVO turno que queremos guardar
+    // 1. Preparamos los datos del nuevo turno que queremos guardar
     let nuevosDatos = {
         id: turnoNuevo.id,
         dia: turnoNuevo.dia,
@@ -407,7 +405,7 @@ async function cambiarTurno() {
         estado: "reservado"
     };
 
-    // 2. Apuntamos a la URL del VIEJO turno para que el servidor sepa cuál modificar
+    // 2. Apuntamos a la URL del viejo turno para que el servidor sepa cuál modificar
     let url = API_TURNOS + "/" + idActual;
 
     try {
