@@ -63,12 +63,15 @@ function FormularioLogin(event){
 }
 
 // ==========================================
-// TAREA 3: REGISTRO 
+// TAREA 3: REGISTRO DE NUEVOS VOLUNTARIOS
 // ==========================================
+
+// Función que recoge los datos introducidos en el formulario de registro y comprueba que la contraseña y su confirmación coinciden.
 async function doCreateUser(event) {
     event.preventDefault();
     console.log("Enviando registro al servidor...");
 
+    // Obtención de los datos introducidos por el usuario
     let usuario = document.forms.registro.usuario.value;
     let email = document.forms.registro.email.value;
     let nombre = document.forms.registro.nombre.value;
@@ -76,11 +79,13 @@ async function doCreateUser(event) {
     let password = document.forms.registro.password.value;
     let comprobacion = document.forms.registro.comprobacion.value;
 
+    // Validación de la contraseña
     if (password !== comprobacion) {
         showError("La contraseña y su comprobación no coinciden.");
         return;
     }
 
+    // Creación del objeto JSON que se enviará al servidor
     let user = {
         user: email,
         usuario: usuario,
@@ -89,8 +94,10 @@ async function doCreateUser(event) {
         password: password
     };
 
+    // Llamada a la función encargada de enviar los datos al backend
     let userId = await createUser(user);
 
+    // Comprobación del resultado del registro
     if (userId != null) {
         alert("Usuario registrado correctamente.");
         showSection("3");
@@ -99,13 +106,21 @@ async function doCreateUser(event) {
     }
 }
 
+// Función que realiza la petición POST al endpoint /voluntarios
+// para almacenar un nuevo usuario en la base de datos MongoDB.
 async function createUser(user) {
+
+    // Configuración de la petición HTTP
     let init = {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(user)
     };
+
+    // Envío de la petición al servidor
     let response = await fetch(API_USERS, init);
+
+    // Si el servidor responde correctamente, devuelve el usuario creado
     if (response.ok) {
         return await response.json();
     } else {
@@ -113,75 +128,100 @@ async function createUser(user) {
     }
 }
 
-// ==========================================
+
 // NAVEGACIÓN DE SECCIONES (MENÚ)
-// ==========================================
+// Función encargada de mostrar la sección seleccionada del menu y ocultar el resto de secciones de la aplicación.
 function showSection(sectionId) {
+
+    // Obtiene todas las secciones de la página
     let sections = document.getElementsByTagName("section");
-    let seccionesocultas = ["6","7","8" ] 
+//Ocultamos estas secciones porque para acceder a ellas hay que autentificarse     
+    // Comprueba si el usuario ha iniciado sesión antes de acceder
+    // a las secciones privadas de la aplicación.
     if(seccionesocultas.includes(sectionId) && testuser === false){
         showError("Hay que iniciar sesión para acceder a esta sección.");
         return;
     }
+
+    // Oculta todas las secciones
     if (sections != null) {
         for (let s of sections) {
             s.classList.add("oculta");
         }
     }
+
+    // Muestra únicamente la sección seleccionada
     let section = document.getElementById("sec-" + sectionId);
     if (section) section.classList.remove("oculta");
 
+    // Elimina la clase active de todos los enlaces del menú
     let links = document.querySelectorAll("[id^=nav-]");
     if (links != null) {
         for (let link of links) {
             link.classList.remove("active");
         }
     }
+
+    // Marca como activa la opción seleccionada
     let link = document.getElementById("nav-" + sectionId);
     if (link) link.classList.add("active");
 }
-
+// Se ejecuta al cargar la página web
 window.onload=function(){
+    // Oculta inicialmente todas las opciones privadas del menú
     let clasesprivadas = document.querySelectorAll(".menuprivado");
     if(clasesprivadas != null) {
         for(let clases of clasesprivadas) {
             clases.classList.add("oculta");
         }
     }
+    // Muestra la sección de inicio al abrir la aplicación
     showSection(1);
 };
-
-// ==========================================
-// SECCIONES 6 Y 8: TURNOS (CRUD CON MONGODB)
-// ==========================================
+// Array que almacena todos los turnos disponibles y reservados
 let turnos = [];
 
-// TAREA 4 (Leer): Cargar la plantilla y fusionarla con los datos de MongoDB
+// TAREA 4 (READ)
+// Al cargar la página se obtiene la información de los turnos reservados
+// almacenados en MongoDB y se fusiona con la plantilla local de turnos.
 window.addEventListener("load", async function () {
     console.log("Cargando plantilla de turnos...");
+
+    // Carga la plantilla inicial con los 15 turnos disponibles
     cargarTurnosDePrueba(); 
 
     try {
+        // Petición GET al servidor para obtener los turnos reservados
         let response = await fetch(API_TURNOS, { method: "GET" });
-        if (response.ok) {
+         if (response.ok) {
+
+            // Convierte la respuesta JSON en un array de objetos
             let turnosReservados = await response.json();
-            
+             // Marca como reservados los turnos existentes en MongoDB
             for (let i = 0; i < turnosReservados.length; i++) {
+
                 let turnoMio = buscarTurno(turnosReservados[i].id);
+
                 if (turnoMio != null) {
                     turnoMio.estado = "reservado";
                 }
             }
-            actualizarPantallaTurnos(); 
+
+            // Actualiza la interfaz gráfica con los datos recibidos
+            actualizarPantallaTurnos();
         }
+
     } catch (error) {
         console.error("Fallo al conectar con el servidor de turnos.");
     }
 });
 
-// Plantilla base de los 15 huecos
+
+// Turnos disponibles 
 function cargarTurnosDePrueba() {
+
     turnos = [
+
         { id: "turno-lunes-desayuno", dia: "Lunes", comida: "Desayuno", estado: "libre" },
         { id: "turno-martes-desayuno", dia: "Martes", comida: "Desayuno", estado: "libre" },
         { id: "turno-miercoles-desayuno", dia: "Miércoles", comida: "Desayuno", estado: "libre" },
@@ -200,59 +240,80 @@ function cargarTurnosDePrueba() {
         { id: "turno-jueves-cena", dia: "Jueves", comida: "Cena", estado: "libre" },
         { id: "turno-viernes-cena", dia: "Viernes", comida: "Cena", estado: "libre" }
     ];
+
+    // Inicializa los eventos y la interfaz de los turnos
     iniciarTurnos();
 }
 
+
+// Asocia los eventos necesarios a los elementos de la tabla
+// y a los botones de gestión de turnos.
 function iniciarTurnos() {
+
+    // Añade un evento click a cada celda de turno
     for (let i = 0; i < turnos.length; i++) {
+
         let celda = document.getElementById(turnos[i].id);
+
         if (celda != null) {
+
             celda.addEventListener("click", function () {
                 marcarTurno(turnos[i].id);
             });
         }
     }
+
+    // Botón para confirmar reservas 
     let botonConfirmar = document.getElementById("btn-confirmar-turnos");
     if (botonConfirmar != null) {
         botonConfirmar.addEventListener("click", confirmarTurnos);
     }
+    // Botón para modificar reservas
     let botonCambiar = document.getElementById("btn-cambiar-turno");
     if (botonCambiar != null) {
         botonCambiar.addEventListener("click", cambiarTurno);
     }
     actualizarPantallaTurnos();
 }
-
+// Busca un turno concreto dentro del array mediante su identificador
 function buscarTurno(idTurno) {
+
     for (let i = 0; i < turnos.length; i++) {
-        if (turnos[i].id === idTurno) return turnos[i];
+
+        if (turnos[i].id === idTurno) {
+            return turnos[i];
+        }
     }
+
     return null;
 }
-
+// Marca o desmarca un turno seleccionado por el usuario
 function marcarTurno(idTurno) {
     let turno = buscarTurno(idTurno);
     if (turno == null) return;
+    // Impide seleccionar un turno ya reservado
     if (turno.estado === "reservado") {
+
         showError("Ese turno ya está reservado.");
         return;
     }
+ // Alterna entre seleccionado y disponible
     turno.estado = (turno.estado === "libre") ? "marcado" : "libre";
     actualizarPantallaTurnos();
 }
 
-// TAREA 3 (Crear): Confirmar reservas enviándolas por POST a MongoDB
+// TAREA 3 (CREATE)
+// Envía mediante una petición POST los turnos seleccionados  y se almacenan en MongoDB
 async function confirmarTurnos() {
     let contador = 0;
-
     for (let i = 0; i < turnos.length; i++) {
         if (turnos[i].estado === "marcado") {
+            // Datos que se enviarán al servidor
             let datosReserva = {
                 id: turnos[i].id,
                 dia: turnos[i].dia,
                 comida: turnos[i].comida
             };
-
             try {
                 let response = await fetch(API_TURNOS, {
                     method: "POST",
@@ -260,18 +321,21 @@ async function confirmarTurnos() {
                     body: JSON.stringify(datosReserva)
                 });
 
+                // Si el servidor responde correctamente, el turno pasa a estado reservado.
                 if (response.ok) {
                     turnos[i].estado = "reservado";
                     contador++;
                 } else {
                     showError("Error al guardar en el servidor.");
                 }
+
             } catch (error) {
                 showError("Fallo de conexión al guardar.");
             }
         }
     }
 
+    // Comprueba si se ha reservado algún turno
     if (contador === 0) {
         showError("No has seleccionado ningún turno.");
     } else {
@@ -280,20 +344,28 @@ async function confirmarTurnos() {
     actualizarPantallaTurnos();
 }
 
-// TAREA 6 (Borrar): Anular reserva con DELETE
+// TAREA 6 (DELETE)
+// Envía una petición DELETE al servidor para eliminar una reserva previamente almacenada en MongoDB.
 async function eliminarTurno(idTurno) {
+ // Construye la URL del turno que se quiere eliminar
     let url = API_TURNOS + "/" + idTurno;
+
     try {
+
+        // Petición DELETE al endpoint correspondiente
         let response = await fetch(url, { method: "DELETE" });
         if (response.ok) {
+            // Si se borra correctamente, el turno vuelve a estar disponible.
             let turno = buscarTurno(idTurno);
             if (turno != null && turno.estado === "reservado") {
                 turno.estado = "libre";
             }
             actualizarPantallaTurnos();
+
         } else {
             showError("No se pudo anular la reserva.");
         }
+
     } catch (error) {
         showError("Error de conexión al intentar borrar.");
     }
@@ -365,7 +437,6 @@ async function cambiarTurno() {
         showError("Error de conexión al intentar cambiar el turno.");
     }
 }
-
 
 // Funciones visuales para actualizar la tabla
 function actualizarPantallaTurnos() {

@@ -6,7 +6,7 @@ const os = require("node:os"); //Obtiene información del SO y nombre de la maqu
 const dns = require("node:dns"); //Obtiene la IP asociada al nombre del equipo
 const { MongoClient, ObjectId } = require("mongodb"); //Permite conectarse a mongo y crear un identificador
 
-//COnecta index.js con login.js
+//COnecta index.js con login.js y voluntarios.js 
 const loginRouter = require("./routes/login");
 const voluntariosRouter = require("./routes/voluntarios");
 

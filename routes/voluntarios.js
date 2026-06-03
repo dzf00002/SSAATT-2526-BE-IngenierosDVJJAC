@@ -24,6 +24,7 @@ const vFlecha = (req, res, next) => {
   }
 };
 // POST /voluntarios - Crear usuario
+//Consiste en trasladar aquí la parte de gestión de voluntarios añadiendo router
 router.post("/", vFlecha, function (req, res) {
   const client = new MongoClient(DB_URL); //Se crea un cliente para conectarse a Mongo
   async function run() {
