@@ -5,7 +5,7 @@ const testkey = "1";
 // Definir donde está el servidor
 const SERVER_URL = ""; 
 const API_LOGIN = SERVER_URL + "/login";
-const API_USERS = SERVER_URL + "/users";
+const API_USERS = SERVER_URL + "/voluntarios";
 //Funcion para comprobar que el correo introducido es igual al definido
 function checking(mail, key)
 {
