@@ -133,7 +133,8 @@ function showSection(sectionId) {
 
     // Obtiene todas las secciones de la página
     let sections = document.getElementsByTagName("section");
-//Ocultamos estas secciones porque para acceder a ellas hay que autentificarse     
+//Ocultamos estas secciones porque para acceder a ellas hay que autentificarse 
+   let seccionesocultas = ["6","7","8"];    
     // Comprueba si el usuario ha iniciado sesión antes de acceder
     // a las secciones privadas de la aplicación.
     if(seccionesocultas.includes(sectionId) && testuser === false){
