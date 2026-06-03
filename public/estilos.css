@@ -241,70 +241,174 @@ form h3{
     margin-bottom: 100px;
 }
 
-.registro aside{              /*Aside de registro*/
-    max-width: 20em;
-    margin:0;
-    font-size:1.2em;
-   border:solid red;
+
+/*----------ACERCADE----------*/
+.acercade {
+	width: 100%;
+	margin: 0 auto;
+	padding: 2em;
+	box-sizing: border-box;
+	text-align: center;
 }
 
-.Titulo-Acerca{
-    text-align: center;
-    margin-top: 40px;
-    /*background-color: rgb(247, 208, 208);*/
+.acercade .Titulo-Acerca {
+	color: white;
+	background-color: rgb(204, 1, 1);
+	border-radius: 15px;
+	font-size: 2.2em;
+	margin: 0 auto 1em auto;
+	padding: 0.4em;
+	max-width: 500px;
 }
 
-.acercade{
-    /*background-color:rgb(255, 255, 255);*/
-    padding:2em;
-    margin-bottom: 1.5em;
-    display:flex;
-    gap:3em;
-    align-items:flex-start;
-    justify-content: center;
-    text-align: center;
-    width: 50%;
-    margin-left: auto;
-    margin-right: auto;
+.fila-acerca {
+	display: flex;
+	justify-content: space-between;
+	align-items: flex-start;
+	gap: 3em;
+	width: 100%;
+	margin-bottom: 2em;
 }
 
-.texto-acercade{
-    flex:2;
-    max-width: 500px;
-    font-size:1.2em;
-    line-height: 1.6;
+.texto-acercade {
+	width: 58%;
+	background-color: white;
+	border-radius: 15px;
+	padding: 1.5em;
+	box-sizing: border-box;
+	text-align: center;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; 
+    font-size: 40px; 
 }
 
-.texto-acercade p{        /*Modifica el primer parrafo de acerca de*/
-    margin-bottom:1em;
+.texto-acercade p {
+	text-align: center;
+	margin-bottom: 1.5em;
 }
 
-.texto-acercade ul{       
-    margin-top: 3em;
-    display: flex;
-    margin:0;
-    padding: 1.5em;
-    text-align: left;
+.aside-acerca {
+	width: 35%;
+	background-color: white;
+	border-radius: 15px;
+	padding: 1.5em;
+	box-sizing: border-box;
+	text-align: justify;
+	align-self: flex-start;
 }
 
+.aside-acerca h4 {
+	color: rgb(204, 1, 1);
+	text-align: center;
+	font-size: 1.3em;
+}
+
+.aside-acerca h5 {
+	color: white;
+	background-color: rgb(204, 1, 1);
+	border-radius: 15px;
+	text-align: center;
+	padding: 0.4em;
+	font-size: 1em;
+}
+
+.aside-acerca ul {
+	text-align: left;
+	margin-left: 1em;
+}
+
+.acercade p{                                 
+    color:rgb(0, 0, 0);
+    text-align: justify;
+    max-width: 800px; 
+    margin: 2em;
+    font-size:20px;
+}
+
+.acercade .imagen-acerca {
+	width: 100%;
+	max-width: 520px;
+	height: auto;
+	display: block;
+	margin: 1.5em auto 0 auto;
+	border-radius: 10px;
+	border: 2px solid rgb(204, 1, 1);
+}
+
+
+.acercade .imagen-entidades {
+	width: 100%;
+	max-width: 300px;
+	height: auto;
+	display: block;
+	margin: 1em auto;
+}
+
+.bloque-tabla-realizadores {
+	width: 100%;
+	margin-top: 2em;
+	clear: both;
+}
+
+.texto-realizadores {
+	color: rgb(204, 1, 1);
+	font-size: 1.4em;
+	font-weight: bold;
+	text-align: center;
+	margin: 0 0 1em 0;
+}
+
+.acercade .tableacerc {
+	width: 100%;
+	margin: 0 auto;
+	table-layout: fixed;
+	text-align: center;
+}
+
+.acercade .tableacerc td {
+	font-size: 0.9em;
+	word-break: break-word;
+	vertical-align: middle;
+}
+
+.acercade .faceimage {
+	width: 100%;
+	max-width: 160px;
+	height: auto;
+	display: block;
+	margin: 0 auto;
+}
+
+
+
+.imagen-entidades {
+	width: 100%;
+	max-width: 300px;
+	height: auto;
+	margin: 1em auto;
+	display: block;
+}
+
+.texto-realizadores {
+	font-size: 1.3em;
+	text-align: center;
+	margin: 2em 0 1em 0;
+}
 
 .tableacerc {
-    width: 80%;
-    padding: 10px;
-    margin-left: auto; 
-    margin-right: auto;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    text-align: center; 
+	width: 100%;
+	margin: 0 auto;
+	table-layout: fixed;
+	text-align: center;
 }
 
 .faceimage {
-   width: 80%;
-    padding: 2px;
-    margin-left: auto; 
-    margin-right: auto;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    text-align: center; 
+	width: 100%;
+	max-width: 180px;
+	height: auto;
+	display: block;
+	margin: 0 auto;
 }
+/*-------------------------------------------*/
 
 footer{
     /*background-color: rgb(247, 208, 208);*/
@@ -534,8 +638,5 @@ font-size: 15px;
 .form-cambio select {
 	margin-top: 0.5em;
 }
-
-
-
 
 
