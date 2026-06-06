@@ -92,7 +92,7 @@
 
 
 				
-				<form  name="login" onsubmit="FormularioLogin(event) ">
+				<form  name="login" onsubmit="LoginForm(event) ">
 							<h2 class="titulo-autent">Iniciar Sesión</h2>
 					<label>
 						Email:<input type="email" name="email" required></label><br>
@@ -123,22 +123,22 @@
 
 					<h2 class="Titulo-Registro">Registro</h2>
 						<label for="usuario">
-							Usuario:<input type="text" name="usuario" minlength="4" maxlength="16" placeholder="4-16 Caracteres">
+							Usuario:<input type="text" name="user" minlength="4" maxlength="16" placeholder="4-16 Caracteres">
 						</label>
 						<label for="email">
 							Correo electrónico: <input type="email" name="email"  max="32" >
 						</label>
 						<label for="nombre">
-							Nombre: <input type="text" name="nombre" max="32" >
+							Nombre: <input type="text" name="name" max="32" >
 						</label>
 						<label for="apellidos">
-							Apellidos: <input type="text" name="apellidos" max="32" >
+							Apellidos: <input type="text" name="surnames" max="32" >
 						</label>
 						<label for="password">
 							Clave de usuario: <input type="password" name="password" min="8" max="16" required placeholder="8-16 Caracteres" >
 						</label>
 						<label for="comprobacion">
-							Comprobación de la clave de usuario: <input type="password" name="comprobacion" min="8" max="16" required placeholder="Introduce tu contraseña" >
+							Comprobación de la clave de usuario: <input type="password" name="testing" min="8" max="16" required placeholder="Introduce tu contraseña" >
 						</label>
 							<p> </p>
 						<button type="submit">Registrar</button>
