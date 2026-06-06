@@ -543,17 +543,17 @@ font-size: 15px;
 	max-width: 950px;
 	margin: 2em auto;
 	padding: 1.5em;
-	background-color:  rgb(255, 255, 255);
+	background-color: rgb(234, 224, 224);
 }
 
 .panel-turnos h2,
 .panel-turnos h3 {
-	color: rgb(255, 255, 255);
+	color: rgb(204, 1, 1);
 	text-align: center;
 }
 
 .create{
-    color:rgb(255, 255, 255);
+    color: rgb(234, 224, 224);
     background-color: rgb(204, 1, 1);
     border-radius: 15px;
     text-align: center;
