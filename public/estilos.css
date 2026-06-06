@@ -10,7 +10,6 @@ header{
     padding: 0.5em 5em;
 }
 
-
 .logo{
     width: 100px;
     height: auto;
@@ -26,6 +25,7 @@ header h1{
     margin: 0;
     font-size: 3em;
 }
+
 
 
 .inicio{                                    
@@ -78,6 +78,14 @@ header h1{
     width: 400px;
     height: auto;
     display: block;
+}
+
+.Contenedor img.imgini{
+    width: 100%;
+    max-width: 800px;
+    height: auto;
+    display: block;
+    margin: 1.5em auto 0 auto;
 }
 
 .menusemana {
