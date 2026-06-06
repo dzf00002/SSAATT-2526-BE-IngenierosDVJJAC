@@ -11,21 +11,20 @@
 <body>
 
 	<header>
-		<!--Caja para mostrar error durante 5 seg (definido en js)-->
+		
 		<div>
 			<img src="logo.png" alt="Logo Amor y Lentejas" class="logo">
 		</div>
 
 		<h1>Comedor social</h1>	
-		 						<!--Titulo principal de la pagina-->
+		 						
 	</header>
 
 	<div id="Error_banner" class="oculta">
         <p id="message"></p>
     </div>
 	
-	<!--Menú principal para navegar por las secciones y ocultar las 
-	secciones antes del login (mediante css y js)-->
+	
 	<nav class="menu">
 		<a id="nav-1" href="#" class="active" onclick="showSection('1')">Inicio</a>
         <a id="nav-2" href="#" class="inactive" onclick="showSection('2')">Menú</a>
@@ -39,9 +38,9 @@
 	
 
 	<main>
-										<!--Contenido principal-->
+										
 		<div class="Contenedor">
-			<!--Cambio las id y las class en cada seccion-->
+			
 			
 			<section id="sec-1" class="content oculta inicio">  
 				<h2>¿QUIÉNES SOMOS?</h2>
@@ -92,7 +91,7 @@
 				</aside>
 
 
-				<!--Al pulsar el botón se ejecuta la función JS-->
+				
 				<form  name="login" onsubmit="FormularioLogin(event) ">
 							<h2 class="titulo-autent">Iniciar Sesión</h2>
 					<label>
@@ -119,7 +118,7 @@
 					</p>
 				</aside>
 
-				<!--Al pulsar el boton se ejecuta la funcion Js-->
+				
 				<form  name="registro" onsubmit="doCreateUser(event)">
 
 					<h2 class="Titulo-Registro">Registro</h2>
@@ -303,7 +302,7 @@
 			
 	</section>
 
-			<!--Aside fijo para todas las secciones-->
+			
 			<aside id="aside-fijo" class="aside-fijo">
 				<h4> "Linares cuida, Linares proteje"</h4>
 

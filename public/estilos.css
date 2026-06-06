@@ -4,13 +4,13 @@ body{
 
 header{
     display: flex;
-    align-items: center;       /* Alinea verticalmente logo y título */
+    align-items: center;       
     justify-content: center;
-    gap: 1em;                  /*Espacio entre logo y título */
+    gap: 1em;                  
     padding: 0.5em 5em;
 }
 
-/*Ajusta el tamaño del logo*/
+
 .logo{
     width: 100px;
     height: auto;
@@ -20,14 +20,14 @@ header{
 header h1{
     color: rgb(235, 2, 2);
     color: rgb(204, 1, 1);
-    /*background-color: rgb(255, 255, 255);*/
+    
     text-align: center;
     padding: 0.5em;
     margin: 0;
     font-size: 3em;
 }
 
-/*Estilo seccion de inicio*/
+
 .inicio{                                    
     margin-top: 3em;
     margin-bottom: 3em;
@@ -38,7 +38,7 @@ header h1{
     border-radius: 15px;
 }
 
-/*Estilo encabezado seccion de inicio*/
+
 .inicio h2{                                 
     color:rgb(255, 255, 255);
     background-color: rgb(204, 1, 1);
@@ -48,7 +48,7 @@ header h1{
     font-size: 40px; 
 }
 
-/*Estilo parrafo seccion inicio*/
+
 .inicio p{                                 
     color:rgb(0, 0, 0);
     text-align: justify;
@@ -57,7 +57,7 @@ header h1{
     font-size:20px;
 }
 
-/*Contenedor de main y aside fijo*/
+
 .Contenedor{
     display: flex;
     align-items: center;
@@ -73,7 +73,7 @@ header h1{
     border-radius:10px;
 }
 
-/*Estilo imagen del contenedor*/
+
 .Contenedor img{
     width: 400px;
     height: auto;
@@ -84,7 +84,7 @@ header h1{
     margin-top: 3em;
 }
 
-/*Estilo tabla menu semanal*/
+
 table{
     width: 80%;
     padding: 10px;
@@ -116,7 +116,7 @@ th {
     color:rgb(255, 255, 255);
     background-color:  rgb(204, 1, 1); 
 }
-/*///////////////////////////////////////////////////////////////////////////////*/
+
 
 
 .registro form,
@@ -132,7 +132,7 @@ th {
 }
 
 
-/*Estilos para formularios*/
+
 form{
     width:20em;
     padding:1em;
@@ -163,16 +163,16 @@ form{
 .titulo-autent{
     text-align: center;
     margin-top: 40px;
-    /*background-color: rgb(247, 208, 208);*/
+    
 }
 
-input, select{                  /*La coma hace que se aplique esas propiedades a los dos objetos*/
+input, select{                  
     width: 100%;
     padding: 0.5em;
     border: solid;
     box-sizing: border-box;
 }
-/************************************************************************************/
+
 
 
 .ayuda{
@@ -193,7 +193,7 @@ input, select{                  /*La coma hace que se aplique esas propiedades a
 
 
 .autentificacion{
-   /* background-color:rgb(255, 255, 255);*/
+   
     padding:2em;
     text-align:center;
     margin-bottom: 1.5em;
@@ -251,11 +251,11 @@ form h3{
 .Titulo-Registro{
     text-align: center;
     margin-top: 40px;
-    /*background-color: rgb(247, 208, 208);*/
+    
 }
 
 .registro{
-    /*background-color:rgb(255, 255, 255);*/
+    
     padding:2em;
     text-align:center;
     margin-bottom: 1.5em;
@@ -276,7 +276,7 @@ form h3{
 }
 
 
-/*----------ACERCADE----------*/
+
 .acercade {
 	width: 100%;
 	margin: 0 auto;
@@ -442,10 +442,10 @@ form h3{
 	display: block;
 	margin: 0 auto;
 }
-/*-------------------------------------------*/
+
 
 footer{
-    /*background-color: rgb(247, 208, 208);*/
+    
     padding:10px;
     text-align: center;
     display: flex;
@@ -473,7 +473,7 @@ footer p{
     height:25px;
 }
 
-/* Estilos para el cartel de error */
+
 div#Error_banner {
     background-color:red;
     color: white;            
