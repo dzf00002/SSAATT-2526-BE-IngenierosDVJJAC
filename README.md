@@ -9,6 +9,9 @@ Nuestro servicio web, consiste un formulario de registro además de un formulari
 ## ODS
 Con este proyecto se intentará colaborar en la mitigación del problema del hambre en el mundo [ODS2](https://www.un.org/sustainabledevelopment/es/hunger/)
 
+## Notas de la versión final.
+En esta version final se ha mejorado el inglés en las variables del archivo JavaScript y se ha eliminado las partes comentadas en HTML, CSS Y Js. 
+En cuanto la parte del front-end se ha mejorado el aspecto visual sustituyendo alguna foto, corrigiendo errores y aplicando a las diferentes funciones un mismo color para que la página tenga el fondo hommogeneo.
 
 # Autores
 El proyecto está siendo desarrollado por un grupo de estudiantes, especializados en la rama de las telecomunicaciones de la Escuela Politecnica Superior de Linares llamado Ingenieros DVJJAC formado por:
